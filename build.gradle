@@ -12,9 +12,6 @@ buildscript {
         // in the individual module build.gradle files
     }
 }
-plugins {
-    id "com.jfrog.bintray" version "1.6"
-}
 allprojects {
     repositories {
         jcenter()
