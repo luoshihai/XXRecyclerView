@@ -11,7 +11,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 24
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -30,47 +30,81 @@ dependencies {
 
 }
 
-//publish {
-//    userOrg = 'luoshihai'      //bintray注册的用户名
-//    groupId = 'com.lsh'         //compile引用时的第1部分groupId
-//    artifactId = 'XXRecyclerview'     //compile引用时的第2部分项目名
-//    publishVersion = '1.0.0'    //compile引用时的第3部分版本号
-//    desc = 'This is a recyclerview extends library'
-//    website = 'https://github.com/lshGitHubName/XXRecyclerView'
-//}
+/** 以下开始是将Android Library上传到jcenter的相关配置**/
 
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+group='com.github.lshGitHubName'
+//项目主页
+def siteUrl = 'https://github.com/lshGitHubName/XXRecyclerView'    // project homepage
+//项目的版本控制地址
+def gitUrl = 'https://github.com/lshGitHubName/XXRecyclerView' // project git
 
-version = "1.0.0"       //这个是版本号，必须填写
-def siteUrl = 'https://github.com/lshGitHubName/XXRecyclerView'      // 项目的主页   这个是说明，可随便填
-def gitUrl = 'https://github.com/lshGitHubName/XXRecyclerView'      // Git仓库的url  这个是说明，可随便填
-//compile 'com.arshowbaby:mylibrary:1.0.0'中的com.arshowbaby
-group = "com.lsh.XXRecyclerview"    // 这里是groupId ,必须填写  一般填你唯一的包名
+//发布到组织名称名字，必须填写
+group = "luoshihai"
+//发布到JCenter上的项目名字，必须填写
+def libName = "XXRecyclerView"
+// 版本号，下次更新是只需要更改版本号即可
+version = "1.0.1"
+/**  上面配置后上传至jcenter后的编译路径是这样的  **/
 
+//生成源文件
+task sourcesJar(type: Jar) {
+
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+//生成文档
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    options.encoding "UTF-8"
+    options.charSet 'UTF-8'
+    options.author true
+    options.version true
+//    options.links "https://github.com/linglongxin24/FastDev/tree/master/mylibrary/docs/javadoc"
+    failOnError false
+}
+
+//文档打包成jar
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+//拷贝javadoc文件
+task copyDoc(type: Copy) {
+    from "${buildDir}/docs/"
+    into "docs"
+}
+
+//上传到jcenter所需要的源码文件
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+// 配置maven库，生成POM.xml文件
 install {
     repositories.mavenInstaller {
         // This generates POM.xml with proper parameters
         pom {
             project {
                 packaging 'aar'
-                // 项目描述，复制我的话，这里需要修改。
-                name 'This is a recyclerview extends library'     //项目描述
+                name 'This is a recyclerview'
                 url siteUrl
-                // 软件开源协议，现在一般都是Apache License2.0吧，复制我的，这里不需要修改。
                 licenses {
                     license {
-                        name 'The Apache Software License, Version 2.0'
-                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        name 'This is a recyclerview'
+                        url 'https://github.com/lshGitHubName/XXRecyclerView'
                     }
                 }
-                //填写开发者基本信息，复制我的，这里需要修改。
                 developers {
                     developer {
-                        id 'lsh'        //填写开发者的一些基本信息
-                        name 'lsh'    //填写开发者的一些基本信息
-                        email '1206327668@qq.com'   //填写开发者的一些基本信息
+                        id 'luoshihai'
+                        name 'luoshihai'
+                        email '1206327668@qq.com'
                     }
                 }
-                // SCM，复制我的，这里不需要修改。
                 scm {
                     connection gitUrl
                     developerConnection gitUrl
@@ -80,44 +114,21 @@ install {
         }
     }
 }
-// 生成jar包的task，不需要修改。
-task sourcesJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    classifier = 'sources'
-}
-// 生成jarDoc的task，不需要修改。
-task javadoc(type: Javadoc) {
-    source = android.sourceSets.main.java.srcDirs
-    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-}
-// 生成javaDoc的jar，不需要修改
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
-artifacts {
-    archives javadocJar
-    archives sourcesJar
-}
-// 这里是读取Bintray相关的信息，我们上传项目到github上的时候会把gradle文件传上去，
-// 所以不要把帐号密码的信息直接写在这里，写在local.properties中，这里动态读取。
+
+//上传到jcenter
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 bintray {
-    //读取 local.properties 文件里面的 bintray.user
-    user = properties.getProperty("bintray.user")
-    //读取 local.properties 文件里面的 bintray.apikey
-    key = properties.getProperty("bintray.apikey")
-
+    user = properties.getProperty("bintray.user")    //读取 local.properties 文件里面的 bintray.user
+    key = properties.getProperty("bintray.apikey")   //读取 local.properties 文件里面的 bintray.apikey
     configurations = ['archives']
     pkg {
-        userOrg = "luoshihai"      //发布到JCenter的组织，注意新版本的bintray是需要手动创建的
-        repo = "maven"          //发布到JCenter上的仓库名称，注意新版本的bintray是需要手动创建的
-        // 发布到Bintray上的项目名字，这里的名字不是compile 'com.arshowbaby:mylibrary:1.0.0'中的mylibrary
-        name = "mylibrary"
+        repo = "maven"
+        name = "XXRecyclerView"    //发布到JCenter上的项目名字，必须填写
+        desc = 'This is a recyclerview'    //项目描述
         websiteUrl = siteUrl
         vcsUrl = gitUrl
         licenses = ["Apache-2.0"]
-        publish = true  // 是否是公开项目
+        publish = true
     }
 }
