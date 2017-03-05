@@ -39,25 +39,6 @@ dependencies {
 //    website = 'https://github.com/lshGitHubName/XXRecyclerView'
 //}
 
-// 生成jar包的task，不需要修改。
-task sourcesJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    classifier = 'sources'
-}
-// 生成jarDoc的task，不需要修改。
-task javadoc(type: Javadoc) {
-    source = android.sourceSets.main.java.srcDirs
-    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-}
-// 生成javaDoc的jar，不需要修改
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
-artifacts {
-    archives javadocJar
-    archives sourcesJar
-}
 
 version = "1.0.0"       //这个是版本号，必须填写
 def siteUrl = 'https://github.com/lshGitHubName/XXRecyclerView'      // 项目的主页   这个是说明，可随便填
