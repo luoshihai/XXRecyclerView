@@ -74,6 +74,7 @@ public class XXRecycleView extends PullRefreshRecycleView {
                 break;
 
             case MotionEvent.ACTION_UP:
+                if (null ==mLoadCreator) return super.dispatchTouchEvent(ev);
                 if (mCurrentDrag) {
                     restoreLoadView();
                 }
@@ -119,6 +120,7 @@ public class XXRecycleView extends PullRefreshRecycleView {
         switch (e.getAction()) {
             case MotionEvent.ACTION_MOVE:
                 // 如果是在最底部才处理，否则不需要处理
+                if (null ==mLoadCreator) return super.onTouchEvent(e);
                 if (canScrollDown() || mCurrentLoadStatus == LOAD_STATUS_LOADING) {
                     // 如果没有到达最顶端，也就是说还可以向上滚动就什么都不处理
                     return super.onTouchEvent(e);
