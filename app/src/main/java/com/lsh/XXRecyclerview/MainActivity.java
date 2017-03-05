@@ -1,4 +1,4 @@
-package com.example.administrator.recyclerviewdemo;
+package com.lsh.XXRecyclerview;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.widget.TextView;
+
 
 import java.util.ArrayList;
 

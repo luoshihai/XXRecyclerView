@@ -1,4 +1,4 @@
-package com.example.administrator.recyclerviewdemo;
+package com.lsh.XXRecyclerview;
 
 import android.content.Context;
 import android.view.LayoutInflater;

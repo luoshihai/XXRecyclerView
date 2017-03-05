@@ -1,4 +1,4 @@
-package com.example.administrator.recyclerviewdemo;
+package com.lsh.XXRecyclerview;
 
 import android.support.annotation.IdRes;
 import android.support.v7.widget.RecyclerView;

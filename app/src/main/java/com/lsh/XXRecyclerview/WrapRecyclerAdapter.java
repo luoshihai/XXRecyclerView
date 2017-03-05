@@ -1,4 +1,4 @@
-package com.example.administrator.recyclerviewdemo;
+package com.lsh.XXRecyclerview;
 
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;

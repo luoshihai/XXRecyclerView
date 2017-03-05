@@ -1,4 +1,4 @@
-package com.example.administrator.recyclerviewdemo;
+package com.lsh.XXRecyclerview;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -14,7 +14,7 @@ import android.view.animation.RotateAnimation;
  * Date: 2017/2/24
  */
 
-public class DefaultRefreshCreator extends RefreshViewCreator{
+public class DefaultRefreshCreator extends RefreshViewCreator {
     // 加载数据的ImageView
     private View mRefreshIv;
 

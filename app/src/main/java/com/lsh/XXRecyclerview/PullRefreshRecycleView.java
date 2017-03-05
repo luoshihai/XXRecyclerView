@@ -1,4 +1,4 @@
-package com.example.administrator.recyclerviewdemo;
+package com.lsh.XXRecyclerview;
 
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
