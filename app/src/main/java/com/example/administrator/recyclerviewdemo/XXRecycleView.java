@@ -119,8 +119,8 @@ public class XXRecycleView extends PullRefreshRecycleView {
     public boolean onTouchEvent(MotionEvent e) {
         switch (e.getAction()) {
             case MotionEvent.ACTION_MOVE:
-                // 如果是在最底部才处理，否则不需要处理
                 if (null ==mLoadCreator) return super.onTouchEvent(e);
+                // 如果是在最底部才处理，否则不需要处理
                 if (canScrollDown() || mCurrentLoadStatus == LOAD_STATUS_LOADING) {
                     // 如果没有到达最顶端，也就是说还可以向上滚动就什么都不处理
                     return super.onTouchEvent(e);
