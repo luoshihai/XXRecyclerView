@@ -2,4 +2,4 @@
 app/build/
 build/
 local.properties
-.gradle
+.gradle/
