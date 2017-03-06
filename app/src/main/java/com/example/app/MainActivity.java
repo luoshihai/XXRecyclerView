@@ -5,7 +5,6 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lsh.XXRecyclerview.CommonRecyclerAdapter;
@@ -45,14 +44,16 @@ public class MainActivity extends AppCompatActivity {
         datas.add("bb");
         datas.add("cc");
         datas.add("dd");
-        rv.setLayoutManager(new GridLayoutManager(this,1, LinearLayoutManager.VERTICAL,false));
+        rv.setLayoutManager(new GridLayoutManager(this,2, LinearLayoutManager.VERTICAL,false));
 //        rv.setAdapter(new CommonRecyclerAdapter<String>(this, datas,android.R.layout.simple_list_item_1) {
 //
 //            @Override
-//            public void convert(CommonViewHolder holder, String s) {
-//                holder.setText(android.R.id.text1, s);
+//            public void convert(CommonViewHolder helper, String item, int position, boolean itemChanged) {
+//                helper.setText(android.R.id.text1, item);
 //            }
+//
 //        });
+//        Toast.makeText(this, "设置适配器", Toast.LENGTH_SHORT).show();
         CommonRecyclerAdapter<String> adapter = new CommonRecyclerAdapter<String>(this, datas, new MultiTypeSupport<String>() {
             @Override
             public int getLayoutId(String item, int position) {
@@ -61,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }) {
             @Override
-            public void convert(CommonViewHolder holder, String s, int position,boolean isChanged) {
+            public void convert(CommonViewHolder holder, String s, int position, boolean isChanged) {
                 if (position % 2 == 0) {
                     holder.setText(android.R.id.text1, s);
                 } else {
@@ -72,27 +73,27 @@ public class MainActivity extends AppCompatActivity {
             }
 
         };
+        rv.setAdapter(adapter);
 //        WrapRecyclerAdapter wrapRecyclerAdapter = new WrapRecyclerAdapter(adapter);
-        TextView headerView1 = new TextView(this);
-        headerView1.setText("这是头部1");
-        TextView headerView2 = new TextView(this);
-        headerView2.setText("这是头部2");
+//        TextView headerView1 = new TextView(this);
+//        headerView1.setText("这是头部1");
+//        TextView headerView2 = new TextView(this);
+//        headerView2.setText("这是头部2");
 //        wrapRecyclerAdapter.addHeaderView(headerView);
-        TextView footerView1 = new TextView(this);
-        footerView1.setText("这是脚部1");
-        TextView footerView2 = new TextView(this);
-        footerView2.setText("这是脚部2");
+//        TextView footerView1 = new TextView(this);
+//        footerView1.setText("这是脚部1");
+//        TextView footerView2 = new TextView(this);
+//        footerView2.setText("这是脚部2");
 //        wrapRecyclerAdapter.addFooterView(footerView);
 //        rv.addHeaderView(headerView2);
 //        rv.addFooterView(footerView1);
 //        rv.addFooterView(footerView2);
-        rv.setAdapter(adapter);
-        rv.setPullRefreshEnabled(true);
+//        rv.setPullRefreshEnabled(true);
 //        rv.addRefreshViewCreator(new DefaultRefreshCreator());
-        rv.addHeaderView(headerView1);
-        rv.addFooterView(footerView1);
+//        rv.addHeaderView(headerView1);
+//        rv.addFooterView(footerView1);
 //        rv.addLoadViewCreator(new DefaultLoadCreator());
-        rv.setLoadMoreEnabled(true);
+//        rv.setLoadMoreEnabled(true);
         rv.setOnLoadMoreListener(new XXRecycleView.OnLoadMoreListener() {
             @Override
             public void onLoad() {

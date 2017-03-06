@@ -3,6 +3,7 @@ package com.lsh.XXRecyclerview;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
@@ -44,15 +45,28 @@ public class XXRecycleView extends PullRefreshRecycleView {
     public static int LOAD_STATUS_LOADING = 0x0044;
 
     public XXRecycleView(Context context) {
-        super(context);
+        this(context, null);
     }
 
     public XXRecycleView(Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
+        this(context, attrs, -1);
     }
 
     public XXRecycleView(Context context, @Nullable AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.XXRecyclerView, defStyle, 0);
+        boolean refreshEnabled;
+        boolean loadMoreEnabled;
+        try {
+            refreshEnabled = a.getBoolean(R.styleable.XXRecyclerView_refreshEnabled, false);
+            loadMoreEnabled = a.getBoolean(R.styleable.XXRecyclerView_loadMoreEnabled, false);
+        } finally {
+            a.recycle();
+        }
+
+        if (refreshEnabled) setPullRefreshEnabled(refreshEnabled);
+        if (loadMoreEnabled) setLoadMoreEnabled(loadMoreEnabled);
+//        Toast.makeText(context, "refreshEnabled:" + refreshEnabled, Toast.LENGTH_SHORT).show();
     }
 
     // 先处理上拉加载更多，同时考虑加载列表的不同风格样式，确保这个项目还是下一个项目都能用
@@ -91,7 +105,6 @@ public class XXRecycleView extends PullRefreshRecycleView {
      * 重置当前加载更多状态
      */
     private void restoreLoadView() {
-
         int currentBottomMargin = ((MarginLayoutParams) mLoadView.getLayoutParams()).bottomMargin;
         int tempBottomMargin = finalBottomMargin;
         if (mCurrentLoadStatus == LOAD_STATUS_LOOSEN_LOADING) {
@@ -177,9 +190,7 @@ public class XXRecycleView extends PullRefreshRecycleView {
      */
     private void addRefreshView() {
         Adapter adapter = getAdapter();
-        if (adapter == null)
-            Toast.makeText(getContext(), "please set adapter first", Toast.LENGTH_SHORT).show();
-        if (adapter != null && mLoadCreator != null) {
+        if (adapter != null &&mLoadCreator != null) {
             // 添加底部加载更多View
             View loadView = mLoadCreator.getLoadView(getContext(), this);
             if (loadView != null) {
@@ -272,7 +283,7 @@ public class XXRecycleView extends PullRefreshRecycleView {
      */
     public void setLoadMoreEnabled(boolean needDefaultLoadView, boolean showLoadMoreFirst, LoadViewCreator loadCreator) {
         if (needDefaultLoadView) {
-            if (mLoadCreator instanceof DefaultLoadCreator) return;
+            if (mLoadCreator != null && mLoadCreator instanceof DefaultLoadCreator) return;
             addLoadViewCreator(new DefaultLoadCreator());
         } else {
             if (getAdapter() != null && getAdapter() instanceof WrapRecyclerAdapter) {
@@ -299,7 +310,6 @@ public class XXRecycleView extends PullRefreshRecycleView {
     }
 
     public void setLoadMoreEnabled(boolean needDefaultLoadView) {
-
         setLoadMoreEnabled(needDefaultLoadView, true);
     }
 
