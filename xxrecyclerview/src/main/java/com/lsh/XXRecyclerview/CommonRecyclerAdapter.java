@@ -66,12 +66,12 @@ public abstract class CommonRecyclerAdapter<T> extends RecyclerView.Adapter impl
 //    public abstract void convert(CommonViewHolder holder, T t, int position);
 
 
-    public abstract void convert(CommonViewHolder helper, T item,int position,boolean itemChanged);
+    public abstract void convert(CommonViewHolder helper, T item, int position, boolean itemChanged);
 
-    public void convert(CommonViewHolder helper, T item,int position){
+    public void convert(CommonViewHolder helper, T item, int position) {
         boolean itemChanged = helper.associatedObject == null || !helper.associatedObject.equals(item);
         helper.associatedObject = item;
-        convert(helper,item, position,itemChanged);
+        convert(helper, item, position, itemChanged);
     }
 
     @Override
@@ -84,9 +84,10 @@ public abstract class CommonRecyclerAdapter<T> extends RecyclerView.Adapter impl
         CommonViewHolder commonViewHolder = (CommonViewHolder) v.getTag(111111111);
         if (commonViewHolder != null) {
             int position = commonViewHolder.getPosition();
-            if (mOnItemClickListener != null) {
+            if (mOnItemClickListener != null)
                 mOnItemClickListener.onItemClickListener(commonViewHolder, position);
-            }
+            if (mOnItemLongClickListener != null)
+                mOnItemLongClickListener.onItemLongClickListener(commonViewHolder, position);
         }
     }
 
@@ -94,7 +95,16 @@ public abstract class CommonRecyclerAdapter<T> extends RecyclerView.Adapter impl
         void onItemClickListener(CommonViewHolder commonViewHolder, int position);
     }
 
+    public interface OnItemLongClickListener {
+        void onItemLongClickListener(CommonViewHolder commonViewHolder, int position);
+    }
+
+    public OnItemLongClickListener mOnItemLongClickListener;
     public OnItemClickListener mOnItemClickListener;
+
+    public void setOnItemLongClickListener(OnItemLongClickListener onItemLongClickListener) {
+        mOnItemLongClickListener = onItemLongClickListener;
+    }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         mOnItemClickListener = onItemClickListener;
