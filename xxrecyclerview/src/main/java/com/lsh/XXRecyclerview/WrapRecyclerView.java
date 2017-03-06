@@ -16,10 +16,9 @@ import java.util.ArrayList;
  */
 
 public class WrapRecyclerView extends RecyclerView {
-
     private ArrayList<View> tempHeaderView;
     private ArrayList<View> tempFooterView;
-
+    private View emptyView;
     private RecyclerView.Adapter mAdapter;
 
     private WrapRecyclerAdapter mWrapRecyclerAdapter;
@@ -35,6 +34,16 @@ public class WrapRecyclerView extends RecyclerView {
     public WrapRecyclerView(Context context, @Nullable AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
+
+    private void checkIfEmpty() {
+        if (emptyView != null && getAdapter() != null) {
+            final boolean emptyViewVisible =
+                    getAdapter().getItemCount() == 0;
+            emptyView.setVisibility(emptyViewVisible ? VISIBLE : GONE);
+            setVisibility(emptyViewVisible ? GONE : VISIBLE);
+        }
+    }
+
 
     @Override
     public void setAdapter(Adapter adapter) {
@@ -62,6 +71,7 @@ public class WrapRecyclerView extends RecyclerView {
 
         mAdapter.registerAdapterDataObserver(mDataObserver);
         mWrapRecyclerAdapter.adjustSpanSize(this);
+        checkIfEmpty();
     }
 
 
@@ -91,6 +101,11 @@ public class WrapRecyclerView extends RecyclerView {
         if (mWrapRecyclerAdapter != null) mWrapRecyclerAdapter.removeFooterView(view);
     }
 
+    public void setEmptyView(View view) {
+        this.emptyView = view;
+    }
+
+
     private AdapterDataObserver mDataObserver = new AdapterDataObserver() {
         @Override
         public void onChanged() {
@@ -98,6 +113,7 @@ public class WrapRecyclerView extends RecyclerView {
             if (mWrapRecyclerAdapter != mAdapter) {
                 mWrapRecyclerAdapter.notifyDataSetChanged();
             }
+            checkIfEmpty();
         }
 
         @Override
@@ -106,6 +122,7 @@ public class WrapRecyclerView extends RecyclerView {
             // 观察者  列表Adapter更新 包裹的也需要更新不然列表的notifyItemChanged没效果
             if (mWrapRecyclerAdapter != mAdapter)
                 mWrapRecyclerAdapter.notifyItemChanged(positionStart);
+            checkIfEmpty();
         }
 
         @Override
@@ -114,6 +131,7 @@ public class WrapRecyclerView extends RecyclerView {
             // 观察者  列表Adapter更新 包裹的也需要更新不然列表的notifyItemChanged没效果
             if (mWrapRecyclerAdapter != mAdapter)
                 mWrapRecyclerAdapter.notifyItemChanged(positionStart, payload);
+            checkIfEmpty();
         }
 
         @Override
@@ -122,6 +140,7 @@ public class WrapRecyclerView extends RecyclerView {
             // 观察者  列表Adapter更新 包裹的也需要更新不然列表的notifyItemInserted没效果
             if (mWrapRecyclerAdapter != mAdapter)
                 mWrapRecyclerAdapter.notifyItemInserted(positionStart);
+            checkIfEmpty();
         }
 
         @Override
@@ -130,6 +149,7 @@ public class WrapRecyclerView extends RecyclerView {
             // 观察者  列表Adapter更新 包裹的也需要更新不然列表的notifyItemMoved没效果
             if (mWrapRecyclerAdapter != mAdapter)
                 mWrapRecyclerAdapter.notifyItemMoved(fromPosition, toPosition);
+            checkIfEmpty();
         }
 
         @Override
@@ -138,6 +158,7 @@ public class WrapRecyclerView extends RecyclerView {
             // 观察者  列表Adapter更新 包裹的也需要更新不然列表的notifyDataSetChanged没效果
             if (mWrapRecyclerAdapter != mAdapter)
                 mWrapRecyclerAdapter.notifyItemRemoved(positionStart);
+            checkIfEmpty();
         }
     };
 }

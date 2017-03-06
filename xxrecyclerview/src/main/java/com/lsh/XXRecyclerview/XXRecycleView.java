@@ -9,7 +9,6 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-
 /**
  * Author:lsh
  * Version: 1.0
@@ -75,7 +74,7 @@ public class XXRecycleView extends PullRefreshRecycleView {
                 break;
 
             case MotionEvent.ACTION_UP:
-                if (null ==mLoadCreator) return super.dispatchTouchEvent(ev);
+                if (mLoadCreator == null) return super.dispatchTouchEvent(ev);
                 if (mCurrentDrag) {
                     restoreLoadView();
                 }
@@ -88,6 +87,7 @@ public class XXRecycleView extends PullRefreshRecycleView {
      * 重置当前加载更多状态
      */
     private void restoreLoadView() {
+
         int currentBottomMargin = ((MarginLayoutParams) mLoadView.getLayoutParams()).bottomMargin;
         int finalBottomMargin = 0;
         if (mCurrentLoadStatus == LOAD_STATUS_LOOSEN_LOADING) {
@@ -120,7 +120,7 @@ public class XXRecycleView extends PullRefreshRecycleView {
     public boolean onTouchEvent(MotionEvent e) {
         switch (e.getAction()) {
             case MotionEvent.ACTION_MOVE:
-                if (null ==mLoadCreator) return super.onTouchEvent(e);
+                if (mLoadCreator == null)  return super.onTouchEvent(e);
                 // 如果是在最底部才处理，否则不需要处理
                 if (canScrollDown() || mCurrentLoadStatus == LOAD_STATUS_LOADING) {
                     // 如果没有到达最顶端，也就是说还可以向上滚动就什么都不处理

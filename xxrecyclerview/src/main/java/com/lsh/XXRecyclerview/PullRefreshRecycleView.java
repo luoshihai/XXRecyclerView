@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 
 /**
  * Author:lsh
@@ -63,7 +64,7 @@ public class PullRefreshRecycleView extends WrapRecyclerView {
     }
 
     @Override
-    public void setAdapter(Adapter adapter) {
+    public void setAdapter(RecyclerView.Adapter adapter) {
         super.setAdapter(adapter);
         addRefreshView();
     }
@@ -78,7 +79,7 @@ public class PullRefreshRecycleView extends WrapRecyclerView {
                 break;
 
             case MotionEvent.ACTION_UP:
-                if (null == mRefreshCreator) super.dispatchTouchEvent(ev);
+                if (mRefreshCreator == null) return super.dispatchTouchEvent(ev);
                 if (mCurrentDrag) {
                     updateRefreshStatus(marginTop);
                     restoreRefreshView();
@@ -94,7 +95,7 @@ public class PullRefreshRecycleView extends WrapRecyclerView {
     private void restoreRefreshView() {
         if (mRefreshView == null) return;
         if (mRefreshView.getLayoutParams() == null) return;
-        int currentTopMargin = ((MarginLayoutParams) mRefreshView.getLayoutParams()).topMargin;
+        int currentTopMargin = ((ViewGroup.MarginLayoutParams) mRefreshView.getLayoutParams()).topMargin;
         int finalTopMargin = -mRefreshViewHeight + 1;
         if (mCurrentRefreshStatus == REFRESH_STATUS_LOOSEN_REFRESHING) {
             finalTopMargin = 0;
@@ -131,7 +132,7 @@ public class PullRefreshRecycleView extends WrapRecyclerView {
     public boolean onTouchEvent(MotionEvent e) {
         switch (e.getAction()) {
             case MotionEvent.ACTION_MOVE:
-                if (null == mRefreshCreator) return super.onTouchEvent(e);
+                if (mRefreshCreator == null)  return super.onTouchEvent(e);
                 // 如果是在最顶部才处理，否则不需要处理
                 if (canScrollUp()) {
                     // 如果没有到达最顶端，也就是说还可以向上滚动就什么都不处理
@@ -215,7 +216,7 @@ public class PullRefreshRecycleView extends WrapRecyclerView {
      */
     public void setRefreshViewMarginTop(int marginTop) {
         if (mRefreshView == null) return;
-        MarginLayoutParams params = (MarginLayoutParams) mRefreshView.getLayoutParams();
+        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) mRefreshView.getLayoutParams();
         if (params == null) return;
         if (marginTop < -mRefreshViewHeight + 1) {
             marginTop = -mRefreshViewHeight + 1;

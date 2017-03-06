@@ -1,5 +1,6 @@
 package com.lsh.XXRecyclerview;
 
+import android.graphics.Bitmap;
 import android.support.annotation.IdRes;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
@@ -18,7 +19,7 @@ public class CommonViewHolder extends RecyclerView.ViewHolder {
 
     private View mItemView;
     private SparseArray<View> mViews;
-
+    Object associatedObject;
     public CommonViewHolder(View itemView) {
         super(itemView);
         this.mItemView = itemView;
@@ -32,6 +33,11 @@ public class CommonViewHolder extends RecyclerView.ViewHolder {
             mViews.put(viewId, view);
         }
         return (T) view;
+    }
+
+
+    public View getItemView() {
+        return mItemView;
     }
 
     public CommonViewHolder setText(int viewId, String content) {
@@ -52,4 +58,55 @@ public class CommonViewHolder extends RecyclerView.ViewHolder {
         return this;
     }
 
+
+    /**
+     * 给按钮设能否被点击
+     * @param viewId
+     * @param isenable
+     * @return
+     */
+
+    public CommonViewHolder setEnable(int viewId, boolean isenable) {
+        View view = getView(viewId);
+        view.setEnabled(isenable);
+        return this;
+    }
+
+    /**
+     * 为ImageView设置图片
+     *
+     * @param viewId
+     * @param bm
+     * @return
+     */
+    public CommonViewHolder setImageBitmap(int viewId, Bitmap bm) {
+        ImageView view = getView(viewId);
+        view.setImageBitmap(bm);
+        return this;
+    }
+    /**
+     * 给textview设置背景图片
+     *
+     * @param viewId
+     * @param drawableRes
+     * @return
+     */
+    public CommonViewHolder setTvBackGround(int viewId, int drawableRes) {
+        TextView view = getView(viewId);
+        view.setBackgroundResource(drawableRes);
+        return this;
+    }
+
+
+    //用来装该view最后一次显示的数据
+    public Object getAssociatedObject() {
+        return associatedObject;
+    }
+
+    /**
+     * Should be called during convert
+     */
+    public void setAssociatedObject(Object associatedObject) {
+        this.associatedObject = associatedObject;
+    }
 }

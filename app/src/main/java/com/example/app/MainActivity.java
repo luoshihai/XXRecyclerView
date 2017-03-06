@@ -1,4 +1,4 @@
-package com.lsh.XXRecyclerview;
+package com.example.app;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -7,6 +7,13 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.widget.TextView;
 
+import com.lsh.XXRecyclerview.CommonRecyclerAdapter;
+import com.lsh.XXRecyclerview.CommonViewHolder;
+import com.lsh.XXRecyclerview.DefaultLoadCreator;
+import com.lsh.XXRecyclerview.DefaultRefreshCreator;
+import com.lsh.XXRecyclerview.MultiTypeSupport;
+import com.lsh.XXRecyclerview.PullRefreshRecycleView;
+import com.lsh.XXRecyclerview.XXRecycleView;
 
 import java.util.ArrayList;
 
