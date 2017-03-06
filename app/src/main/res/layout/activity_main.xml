@@ -11,8 +11,10 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.app.MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"/>
+   <com.lsh.XXRecyclerview.XXRecycleView
+       android:id="@+id/rv"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
+
+   </com.lsh.XXRecyclerview.XXRecycleView>
 </RelativeLayout>

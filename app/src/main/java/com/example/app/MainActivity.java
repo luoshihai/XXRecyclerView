@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }) {
             @Override
-            public void convert(CommonViewHolder holder, String s, int position) {
+            public void convert(CommonViewHolder holder, String s, int position,boolean isChanged) {
                 if (position % 2 == 0) {
                     holder.setText(android.R.id.text1, s);
                 } else {
