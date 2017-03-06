@@ -4,8 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.RotateAnimation;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 /**
@@ -19,56 +18,46 @@ public class DefaultLoadCreator extends LoadViewCreator {
     // 加载数据的ImageView
     private View mRefreshIv;
     private TextView mTv;
+    private ProgressBar mProgressBar;
+    private TextView xxrecylcerview_footer_hint_textview;
+    private int lastStatus;
 
     @Override
     public View getLoadView(Context context, ViewGroup parent) {
-        View refreshView = LayoutInflater.from(context).inflate(R.layout.layout_refresh_header_view, parent, false);
-        mRefreshIv = refreshView.findViewById(R.id.refresh_iv);
-        mTv = (TextView) refreshView.findViewById(R.id.tv);
-        return refreshView;
+        View loadView = LayoutInflater.from(context).inflate(R.layout.layout_refresh_footer_view, parent, false);
+        mProgressBar = ((ProgressBar) loadView.findViewById(R.id.xxrecylcerview_footer_progressbar));
+        xxrecylcerview_footer_hint_textview = ((TextView) loadView.findViewById(R.id.xxrecylcerview_footer_hint_textview));
+        return loadView;
     }
-
     @Override
     public void onPull(int currentDragHeight, int refreshViewHeight, int currentRefreshStatus) {
-        if (currentRefreshStatus == XXRecycleView.LOAD_STATUS_LOADING) {
-            mRefreshIv.setVisibility(View.VISIBLE);
-            mTv.setVisibility(View.GONE);
-            float rotate = ((float) currentDragHeight) / refreshViewHeight;
-            // 不断下拉的过程中不断的旋转图片
-            mRefreshIv.setRotation(rotate * 360);
-        } else if (currentRefreshStatus == XXRecycleView.LOAD_STATUS_PULL_DOWN_REFRESH) {
-            mRefreshIv.setVisibility(View.GONE);
-            mTv.setVisibility(View.VISIBLE);
-            mTv.setText("上拉加载更多");
-        } else if (currentRefreshStatus == XXRecycleView.LOAD_STATUS_LOOSEN_LOADING) {
-            mRefreshIv.setVisibility(View.GONE);
-            mTv.setVisibility(View.VISIBLE);
-            mTv.setText("松开加载更多");
-        } else if (currentRefreshStatus == XXRecycleView.LOAD_STATUS_NORMAL) {
-
+        //上啦刷新
+        if (XXRecycleView.LOAD_STATUS_PULL_DOWN_REFRESH == currentRefreshStatus && lastStatus != XXRecycleView.LOAD_STATUS_PULL_DOWN_REFRESH) {
+            mProgressBar.setVisibility(View.INVISIBLE);
+            xxrecylcerview_footer_hint_textview.setVisibility(View.VISIBLE);
+            xxrecylcerview_footer_hint_textview.setText(R.string.xxrecyclerview_footer_hint_normal);
+            lastStatus = XXRecycleView.LOAD_STATUS_PULL_DOWN_REFRESH;
+        } else if (XXRecycleView.LOAD_STATUS_LOOSEN_LOADING == currentRefreshStatus && lastStatus != XXRecycleView.LOAD_STATUS_LOOSEN_LOADING) {
+            mProgressBar.setVisibility(View.INVISIBLE);
+            xxrecylcerview_footer_hint_textview.setVisibility(View.VISIBLE);
+            xxrecylcerview_footer_hint_textview.setText(R.string.xxrecyclerview_footer_hint_ready);
+            lastStatus = XXRecycleView.LOAD_STATUS_LOOSEN_LOADING;
         }
+
     }
 
     @Override
     public void onLoading() {
-        // 刷新的时候不断旋转
-        RotateAnimation animation = new RotateAnimation(0, 720,
-                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-        animation.setRepeatCount(-1);
-        animation.setDuration(3000);
-        mRefreshIv.startAnimation(animation);
-        mTv.setVisibility(View.GONE);
-        mRefreshIv.setVisibility(View.VISIBLE);
+//        // 刷新的时候不断旋转
+        mProgressBar.setVisibility(View.VISIBLE);
+        xxrecylcerview_footer_hint_textview.setVisibility(View.INVISIBLE);
     }
 
     @Override
     public void onStopLoad() {
-        // 停止加载的时候清除动画
-        mRefreshIv.setRotation(0);
-        mRefreshIv.clearAnimation();
-        mTv.setVisibility(View.VISIBLE);
-        mRefreshIv.setVisibility(View.GONE);
-        mTv.setText("上拉加载更多");
+        mProgressBar.setVisibility(View.INVISIBLE);
+        xxrecylcerview_footer_hint_textview.setVisibility(View.VISIBLE);
+        xxrecylcerview_footer_hint_textview.setText(R.string.xxrecyclerview_footer_hint_normal);
     }
 
 

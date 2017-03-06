@@ -120,7 +120,7 @@ public class WrapRecyclerAdapter extends RecyclerView.Adapter {
 
     public void removeHeaderView(View view) {
         int i = mHeaderViews.indexOfValue(view);
-        if (i > 0) {
+        if (i >= 0) {
             mHeaderViews.removeAt(i);
             notifyDataSetChanged();
         }
@@ -128,7 +128,7 @@ public class WrapRecyclerAdapter extends RecyclerView.Adapter {
 
     public void removeFooterView(View view) {
         int i = mFooterViews.indexOfValue(view);
-        if (i > 0) {
+        if (i >= 0) {
             mFooterViews.removeAt(i);
             notifyDataSetChanged();
         }

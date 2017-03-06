@@ -8,6 +8,8 @@ import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
 
 /**
  * Author:lsh
@@ -18,6 +20,8 @@ import android.view.View;
 
 public class XXRecycleView extends PullRefreshRecycleView {
 
+    //最终loadView显示的位置  0 表示全显示
+    int finalBottomMargin = 0;
     // 上拉加载更多的辅助类
     private LoadViewCreator mLoadCreator;
     // 上拉加载更多头部的高度
@@ -89,9 +93,10 @@ public class XXRecycleView extends PullRefreshRecycleView {
     private void restoreLoadView() {
 
         int currentBottomMargin = ((MarginLayoutParams) mLoadView.getLayoutParams()).bottomMargin;
-        int finalBottomMargin = 0;
+        int tempBottomMargin = finalBottomMargin;
         if (mCurrentLoadStatus == LOAD_STATUS_LOOSEN_LOADING) {
             mCurrentLoadStatus = LOAD_STATUS_LOADING;
+            tempBottomMargin = 0;
             if (mLoadCreator != null) {
                 mLoadCreator.onLoading();
             }
@@ -100,10 +105,10 @@ public class XXRecycleView extends PullRefreshRecycleView {
             }
         }
 
-        int distance = currentBottomMargin - finalBottomMargin;
+        int distance = currentBottomMargin - tempBottomMargin;
 
         // 回弹到指定位置0.3
-        ValueAnimator animator = ObjectAnimator.ofFloat(currentBottomMargin, finalBottomMargin).setDuration(distance);
+        ValueAnimator animator = ObjectAnimator.ofFloat(currentBottomMargin, tempBottomMargin).setDuration(distance);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -120,16 +125,16 @@ public class XXRecycleView extends PullRefreshRecycleView {
     public boolean onTouchEvent(MotionEvent e) {
         switch (e.getAction()) {
             case MotionEvent.ACTION_MOVE:
-                if (mLoadCreator == null)  return super.onTouchEvent(e);
+                if (mLoadCreator == null) return super.onTouchEvent(e);
                 // 如果是在最底部才处理，否则不需要处理
                 if (canScrollDown() || mCurrentLoadStatus == LOAD_STATUS_LOADING) {
-                    // 如果没有到达最顶端，也就是说还可以向上滚动就什么都不处理
+                    // 如果没有到达最底端，也就是说还可以向下滚动就什么都不处理
                     return super.onTouchEvent(e);
                 }
 
-                if (mLoadCreator != null) {
-                    mLoadViewHeight = mLoadView.getMeasuredHeight();
-                }
+//                if (mLoadCreator != null) {
+//                    mLoadViewHeight = mLoadView.getMeasuredHeight();
+//                }
                 // 解决上拉加载更多自动滚动问题
                 if (mCurrentDrag) {
                     scrollToPosition(getAdapter().getItemCount() - 1);
@@ -137,7 +142,7 @@ public class XXRecycleView extends PullRefreshRecycleView {
 
                 // 获取手指触摸拖拽的距离
                 int distanceY = (int) ((e.getRawY() - mFingerDownY) * mDragIndex);
-                // 如果是已经到达头部，并且不断的向下拉，那么不断的改变refreshView的marginTop的值
+                // 如果是已经到达头部，并且不断的向上拉，那么不断的改变refreshView的marginTop的值
                 if (distanceY < 0) {
                     setLoadViewMarginBottom(-distanceY);
                     updateLoadStatus(-distanceY);
@@ -172,28 +177,62 @@ public class XXRecycleView extends PullRefreshRecycleView {
      */
     private void addRefreshView() {
         Adapter adapter = getAdapter();
+        if (adapter == null)
+            Toast.makeText(getContext(), "please set adapter first", Toast.LENGTH_SHORT).show();
         if (adapter != null && mLoadCreator != null) {
             // 添加底部加载更多View
             View loadView = mLoadCreator.getLoadView(getContext(), this);
             if (loadView != null) {
                 addFooterView(loadView);
+                loadView.setOnClickListener(onLoadViewClickListener);
+                if (mLoadView != null) {
+                    ((WrapRecyclerAdapter) adapter).removeFooterView(mLoadView);
+                }
                 this.mLoadView = loadView;
             }
         }
     }
 
+    private OnClickListener onLoadViewClickListener = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            mCurrentLoadStatus = LOAD_STATUS_LOOSEN_LOADING;
+            restoreLoadView();
+//            if (mListener != null) mListener.onLoad();
+        }
+    };
+
     /**
      * 设置加载View的marginBottom
      */
     public void setLoadViewMarginBottom(int marginBottom) {
-        MarginLayoutParams params = (MarginLayoutParams) mLoadView.getLayoutParams();
-        if (marginBottom < 0) {
-            marginBottom = 0;
+
+        if (mLoadView == null) return;
+        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) mLoadView.getLayoutParams();
+        if (params == null) return;
+        if (marginBottom < -mLoadViewHeight + 1) {
+            marginBottom = -mLoadViewHeight + 1;
         }
         params.bottomMargin = marginBottom;
         mLoadView.setLayoutParams(params);
     }
 
+//    @Override
+//    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+//        super.onLayout(changed, l, t, r, b);
+//        if (changed) {
+//            if (mLoadView != null && mLoadViewHeight <= 0) {
+//                // 获取头部刷新View的高度
+//                mLoadView.measure(0, 0);
+//                mLoadViewHeight = mLoadView.getMeasuredHeight();
+//                finalBottomMargin = -mLoadViewHeight + 1;
+//                if (mLoadViewHeight > 0) {
+//                    // 隐藏头部刷新的View  marginTop  多留出1px防止无法判断是不是滚动到头部问题
+//                    setLoadViewMarginBottom(-mLoadViewHeight + 1);
+//                }
+//            }
+//        }
+//    }
 
     /**
      * @return Whether it is possible for the child view of this layout to
@@ -207,7 +246,7 @@ public class XXRecycleView extends PullRefreshRecycleView {
     /**
      * 停止加载更多
      */
-    public void onStopLoad() {
+    public void stopLoad() {
         mCurrentLoadStatus = LOAD_STATUS_NORMAL;
         restoreLoadView();
         if (mLoadCreator != null) {
@@ -225,4 +264,43 @@ public class XXRecycleView extends PullRefreshRecycleView {
     public interface OnLoadMoreListener {
         void onLoad();
     }
+
+    /**
+     * @param needDefaultLoadView 是否使用默认上拉加载布局
+     * @param showLoadMoreFirst   是否显示上拉加载的那个条目  如果设置不显示  效果就和下拉刷新一样  但是现在无效  后面改
+     * @param loadCreator         可以使用自定义的脚布局 extents LoadViewCreator 就可以啦
+     */
+    public void setLoadMoreEnabled(boolean needDefaultLoadView, boolean showLoadMoreFirst, LoadViewCreator loadCreator) {
+        if (needDefaultLoadView) {
+            if (mLoadCreator instanceof DefaultLoadCreator) return;
+            addLoadViewCreator(new DefaultLoadCreator());
+        } else {
+            if (getAdapter() != null && getAdapter() instanceof WrapRecyclerAdapter) {
+                ((WrapRecyclerAdapter) getAdapter()).removeHeaderView(mLoadView);
+            } else {
+                Toast.makeText(getContext(), "please set adapter first", Toast.LENGTH_SHORT).show();
+            }
+        }
+        if (mLoadView != null) mLoadView.measure(0, 0);
+        if (!showLoadMoreFirst) {
+            finalBottomMargin = -mLoadView.getMeasuredHeight() + 1;
+        } else {
+            finalBottomMargin = 0;
+        }
+
+        //现在这个设置无效  还不明白 后面要改
+        setLoadViewMarginBottom(finalBottomMargin);
+
+        if (loadCreator != null) addLoadViewCreator(loadCreator);
+    }
+
+    public void setLoadMoreEnabled(boolean needDefaultLoadView, boolean showLoadMoreFirst) {
+        setLoadMoreEnabled(needDefaultLoadView, showLoadMoreFirst, null);
+    }
+
+    public void setLoadMoreEnabled(boolean needDefaultLoadView) {
+
+        setLoadMoreEnabled(needDefaultLoadView, true);
+    }
+
 }

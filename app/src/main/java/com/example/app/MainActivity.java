@@ -6,11 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.lsh.XXRecyclerview.CommonRecyclerAdapter;
 import com.lsh.XXRecyclerview.CommonViewHolder;
-import com.lsh.XXRecyclerview.DefaultLoadCreator;
-import com.lsh.XXRecyclerview.DefaultRefreshCreator;
 import com.lsh.XXRecyclerview.MultiTypeSupport;
 import com.lsh.XXRecyclerview.PullRefreshRecycleView;
 import com.lsh.XXRecyclerview.XXRecycleView;
@@ -46,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         datas.add("bb");
         datas.add("cc");
         datas.add("dd");
-        rv.setLayoutManager(new GridLayoutManager(this,2, LinearLayoutManager.VERTICAL,false));
+        rv.setLayoutManager(new GridLayoutManager(this,1, LinearLayoutManager.VERTICAL,false));
 //        rv.setAdapter(new CommonRecyclerAdapter<String>(this, datas,android.R.layout.simple_list_item_1) {
 //
 //            @Override
@@ -88,18 +87,20 @@ public class MainActivity extends AppCompatActivity {
 //        rv.addFooterView(footerView1);
 //        rv.addFooterView(footerView2);
         rv.setAdapter(adapter);
-        rv.addRefreshViewCreator(new DefaultRefreshCreator());
+        rv.setPullRefreshEnabled(true);
+//        rv.addRefreshViewCreator(new DefaultRefreshCreator());
         rv.addHeaderView(headerView1);
         rv.addFooterView(footerView1);
-        rv.addLoadViewCreator(new DefaultLoadCreator());
-
+//        rv.addLoadViewCreator(new DefaultLoadCreator());
+        rv.setLoadMoreEnabled(true);
         rv.setOnLoadMoreListener(new XXRecycleView.OnLoadMoreListener() {
             @Override
             public void onLoad() {
                 mHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        rv.onStopLoad();
+                        Toast.makeText(MainActivity.this, "正在加载", Toast.LENGTH_SHORT).show();
+                        rv.stopLoad();
                     }
                 }, 3000);
             }
@@ -110,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
                 mHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        rv.onStopRefresh();
+                        rv.stopRefresh();
                     }
                 }, 3000);
             }

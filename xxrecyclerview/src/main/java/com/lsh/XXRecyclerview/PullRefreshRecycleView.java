@@ -10,6 +10,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 /**
  * Author:lsh
@@ -36,13 +37,13 @@ public class PullRefreshRecycleView extends WrapRecyclerView {
     // 当前的状态
     private int mCurrentRefreshStatus;
     // 默认状态
-    public int REFRESH_STATUS_NORMAL = 0x0011;
+    public static int REFRESH_STATUS_NORMAL = 0x0011;
     // 下拉刷新状态
-    public int REFRESH_STATUS_PULL_DOWN_REFRESH = 0x0022;
+    public static int REFRESH_STATUS_PULL_DOWN_REFRESH = 0x0022;
     // 松开刷新状态
-    public int REFRESH_STATUS_LOOSEN_REFRESHING = 0x0033;
+    public static int REFRESH_STATUS_LOOSEN_REFRESHING = 0x0033;
     // 正在刷新状态
-    public int REFRESH_STATUS_REFRESHING = 0x0044;
+    public static int REFRESH_STATUS_REFRESHING = 0x0044;
 
     public PullRefreshRecycleView(Context context) {
         super(context);
@@ -81,7 +82,7 @@ public class PullRefreshRecycleView extends WrapRecyclerView {
             case MotionEvent.ACTION_UP:
                 if (mRefreshCreator == null) return super.dispatchTouchEvent(ev);
                 if (mCurrentDrag) {
-                    updateRefreshStatus(marginTop);
+//                    updateRefreshStatus(marginTop);
                     restoreRefreshView();
                 }
                 break;
@@ -128,11 +129,12 @@ public class PullRefreshRecycleView extends WrapRecyclerView {
 
     int marginTop;
 
+
     @Override
     public boolean onTouchEvent(MotionEvent e) {
         switch (e.getAction()) {
             case MotionEvent.ACTION_MOVE:
-                if (mRefreshCreator == null)  return super.onTouchEvent(e);
+                if (mRefreshCreator == null) return super.onTouchEvent(e);
                 // 如果是在最顶部才处理，否则不需要处理
                 if (canScrollUp()) {
                     // 如果没有到达最顶端，也就是说还可以向上滚动就什么都不处理
@@ -153,10 +155,8 @@ public class PullRefreshRecycleView extends WrapRecyclerView {
                 if (distanceY > 0) {
                     marginTop = distanceY - mRefreshViewHeight;
                     setRefreshViewMarginTop(marginTop);
-//                    updateRefreshStatus(marginTop);
-                    if (mRefreshCreator != null) {
-                        mRefreshCreator.onPull(marginTop, mRefreshViewHeight, mCurrentRefreshStatus);
-                    }
+                    updateRefreshStatus(marginTop);
+                    mRefreshCreator.onPull(marginTop, mRefreshViewHeight, mCurrentRefreshStatus);
                     mCurrentDrag = true;
                     return false;
                 }
@@ -191,6 +191,9 @@ public class PullRefreshRecycleView extends WrapRecyclerView {
             View refreshView = mRefreshCreator.getRefreshView(getContext(), this);
             if (refreshView != null) {
                 addHeaderView(refreshView);
+                if (mRefreshView != null) {
+                    ((WrapRecyclerAdapter) adapter).removeFooterView(mRefreshView);
+                }
                 this.mRefreshView = refreshView;
             }
         }
@@ -214,7 +217,7 @@ public class PullRefreshRecycleView extends WrapRecyclerView {
     /**
      * 设置刷新View的marginTop
      */
-    public void setRefreshViewMarginTop(int marginTop) {
+    private void setRefreshViewMarginTop(int marginTop) {
         if (mRefreshView == null) return;
         ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) mRefreshView.getLayoutParams();
         if (params == null) return;
@@ -242,7 +245,7 @@ public class PullRefreshRecycleView extends WrapRecyclerView {
     /**
      * 停止刷新
      */
-    public void onStopRefresh() {
+    public void stopRefresh() {
         mCurrentRefreshStatus = REFRESH_STATUS_NORMAL;
         restoreRefreshView();
         if (mRefreshCreator != null) {
@@ -259,5 +262,34 @@ public class PullRefreshRecycleView extends WrapRecyclerView {
 
     public interface OnRefreshListener {
         void onRefresh();
+    }
+
+    /**
+     *
+     * @param needDefaultRefreshView 是否使用默认的下拉加载布局
+     * @param refreshCreator 使用自己的下拉加载布局  extents RefreshViewCreator即可
+     */
+    public void setPullRefreshEnabled(boolean needDefaultRefreshView, RefreshViewCreator refreshCreator) {
+        DefaultRefreshCreator defaultRefreshCreator = null;
+        if (needDefaultRefreshView) {
+            if (mRefreshCreator instanceof DefaultRefreshCreator)return;
+            defaultRefreshCreator = new DefaultRefreshCreator();
+            addRefreshViewCreator(defaultRefreshCreator);
+        } else {
+            if (getAdapter() != null && getAdapter() instanceof WrapRecyclerAdapter) {
+                ((WrapRecyclerAdapter) getAdapter()).removeHeaderView(mRefreshView);
+            } else {
+                Toast.makeText(getContext(), "please set adapter first", Toast.LENGTH_SHORT).show();
+            }
+            return;
+        }
+        if (refreshCreator != null) {
+            addRefreshViewCreator(refreshCreator);
+        }
+    }
+    public void setPullRefreshEnabled(boolean needDefaultRefreshView) {
+
+
+        setPullRefreshEnabled(needDefaultRefreshView, null);
     }
 }
