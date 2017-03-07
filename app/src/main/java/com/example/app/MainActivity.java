@@ -5,6 +5,10 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lsh.XXRecyclerview.CommonRecyclerAdapter;
@@ -28,22 +32,25 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         rv = (XXRecycleView) findViewById(R.id.rv);
-        datas.add("aa");
-        datas.add("bb");
-        datas.add("cc");
-        datas.add("dd");
-        datas.add("aa");
-        datas.add("bb");
-        datas.add("cc");
-        datas.add("dd");
-        datas.add("aa");
-        datas.add("bb");
-        datas.add("cc");
-        datas.add("dd");
-        datas.add("aa");
-        datas.add("bb");
-        datas.add("cc");
-        datas.add("dd");
+//        View emptyView = findViewById(R.id.main_empty);
+        ViewGroup rootView = (ViewGroup) rv.getRootView();
+        View emptyView = LayoutInflater.from(this).inflate(R.layout.empty_view, rootView,false);
+//        datas.add("aa");
+//        datas.add("bb");
+//        datas.add("cc");
+//        datas.add("dd");
+//        datas.add("aa");
+//        datas.add("bb");
+//        datas.add("cc");
+//        datas.add("dd");
+//        datas.add("aa");
+//        datas.add("bb");
+//        datas.add("cc");
+//        datas.add("dd");
+//        datas.add("aa");
+//        datas.add("bb");
+//        datas.add("cc");
+//        datas.add("dd");
         rv.setLayoutManager(new GridLayoutManager(this,2, LinearLayoutManager.VERTICAL,false));
 //        rv.setAdapter(new CommonRecyclerAdapter<String>(this, datas,android.R.layout.simple_list_item_1) {
 //
@@ -74,9 +81,10 @@ public class MainActivity extends AppCompatActivity {
 
         };
         rv.setAdapter(adapter);
+        rv.setEmptyView(emptyView,true);
 //        WrapRecyclerAdapter wrapRecyclerAdapter = new WrapRecyclerAdapter(adapter);
-//        TextView headerView1 = new TextView(this);
-//        headerView1.setText("这是头部1");
+        TextView headerView1 = new TextView(this);
+        headerView1.setText("这是头部1");
 //        TextView headerView2 = new TextView(this);
 //        headerView2.setText("这是头部2");
 //        wrapRecyclerAdapter.addHeaderView(headerView);

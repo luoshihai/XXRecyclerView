@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
@@ -20,7 +21,7 @@ public class WrapRecyclerView extends RecyclerView {
     private ArrayList<View> tempFooterView;
     private View emptyView;
     private RecyclerView.Adapter mAdapter;
-
+    private boolean isShowEmptyViewWhenHasHeaderOrFooder = false;
     private WrapRecyclerAdapter mWrapRecyclerAdapter;
 
     public WrapRecyclerView(Context context) {
@@ -35,10 +36,18 @@ public class WrapRecyclerView extends RecyclerView {
         super(context, attrs, defStyle);
     }
 
+    @Override
+    public void setLayoutManager(LayoutManager layout) {
+
+        super.setLayoutManager(layout);
+
+    }
+
     private void checkIfEmpty() {
-        if (emptyView != null && getAdapter() != null) {
-            final boolean emptyViewVisible =
-                    getAdapter().getItemCount() == 0;
+        Adapter adapter = getAdapter();
+        if (emptyView != null && adapter != null && adapter instanceof WrapRecyclerAdapter) {
+            WrapRecyclerAdapter wrapRecyclerAdapter = (WrapRecyclerAdapter) adapter;
+            boolean emptyViewVisible = isShowEmptyViewWhenHasHeaderOrFooder ? wrapRecyclerAdapter.getItemCount() <= 0 : wrapRecyclerAdapter.getItemCount() - wrapRecyclerAdapter.getHeaderCount() - wrapRecyclerAdapter.getHeaderCount() <= 0;
             emptyView.setVisibility(emptyViewVisible ? VISIBLE : GONE);
             setVisibility(emptyViewVisible ? GONE : VISIBLE);
         }
@@ -101,10 +110,20 @@ public class WrapRecyclerView extends RecyclerView {
         if (mWrapRecyclerAdapter != null) mWrapRecyclerAdapter.removeFooterView(view);
     }
 
-    public void setEmptyView(View view) {
+    public void setEmptyView(View view, boolean isShowEmptyViewWhenHasHeaderOrFooder) {
         this.emptyView = view;
+        this.isShowEmptyViewWhenHasHeaderOrFooder = isShowEmptyViewWhenHasHeaderOrFooder;
+        ViewGroup parent = (ViewGroup) getParent();
+        if (emptyView.getParent() == null) {
+            parent.addView(emptyView);
+        }
+
+        checkIfEmpty();
     }
 
+    public void setEmptyView(View view) {
+        setEmptyView(view, false);
+    }
 
     private AdapterDataObserver mDataObserver = new AdapterDataObserver() {
         @Override

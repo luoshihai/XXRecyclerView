@@ -134,6 +134,12 @@ public class WrapRecyclerAdapter extends RecyclerView.Adapter {
         }
     }
 
+    public int getHeaderCount() {
+        return mHeaderViews == null ? 0 : mHeaderViews.size();
+    }
+    public int getFooterCount() {
+        return mFooterViews == null ? 0 : mFooterViews.size();
+    }
     public void adjustSpanSize(RecyclerView recyclerView) {
         if (recyclerView.getLayoutManager() instanceof GridLayoutManager) {
             final GridLayoutManager layoutManager = (GridLayoutManager) recyclerView.getLayoutManager();

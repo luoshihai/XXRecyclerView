@@ -13,9 +13,11 @@
        android:layout_width="match_parent"
        android:layout_height="match_parent"
        app:refreshEnabled = "true"
-       app:loadMoreEnabled = "true"
+       app:loadMoreEnabled = "false"
        >
 
-
    </com.lsh.XXRecyclerview.XXRecycleView>
+   <!--<include-->
+       <!--android:id="@+id/main_empty"-->
+       <!--layout="@layout/empty_view"/>-->
 </RelativeLayout>
