@@ -1,5 +1,6 @@
 //apply plugin: 'com.android.application'
 apply plugin: 'com.android.library'
+apply plugin: 'maven'
 apply plugin: 'com.github.dcendents.android-maven'
 android {
     compileSdkVersion 23
@@ -13,7 +14,6 @@ android {
 //        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 }
-
 dependencies {
     compile 'com.android.support:recyclerview-v7:23.2.1'
 //    compile 'com.apkfuns.logutils:library:1.4.2.2'
