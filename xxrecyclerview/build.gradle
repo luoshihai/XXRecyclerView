@@ -1,6 +1,5 @@
 //apply plugin: 'com.android.application'
 apply plugin: 'com.android.library'
-//配置插件
 apply plugin: 'com.github.dcendents.android-maven'
 android {
     compileSdkVersion 23
