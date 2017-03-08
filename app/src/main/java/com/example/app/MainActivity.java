@@ -49,6 +49,38 @@ public class MainActivity extends AppCompatActivity {
         datas.add("bb");
         datas.add("cc");
         datas.add("dd");
+        datas.add("aa");
+        datas.add("bb");
+        datas.add("cc");
+        datas.add("dd");
+        datas.add("aa");
+        datas.add("bb");
+        datas.add("cc");
+        datas.add("dd");
+        datas.add("aa");
+        datas.add("bb");
+        datas.add("cc");
+        datas.add("dd");
+        datas.add("aa");
+        datas.add("bb");
+        datas.add("cc");
+        datas.add("dd");
+        datas.add("aa");
+        datas.add("bb");
+        datas.add("cc");
+        datas.add("dd");
+        datas.add("aa");
+        datas.add("bb");
+        datas.add("cc");
+        datas.add("dd");
+        datas.add("aa");
+        datas.add("bb");
+        datas.add("cc");
+        datas.add("dd");
+        datas.add("aa");
+        datas.add("bb");
+        datas.add("cc");
+        datas.add("dd");
 //        rv.setLayoutManager(new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false));
 //        rv.setAdapter(new CommonRecyclerAdapter<String>(this, datas,android.R.layout.simple_list_item_1) {
 //
@@ -136,6 +168,18 @@ public class MainActivity extends AppCompatActivity {
             public void refreshEnd() {
 //                rv.stopLoad();
 //                rv.setLoadMoreEnabled(false);
+            }
+        });
+//        adapter.setOnItemClickListener(new CommonRecyclerAdapter.OnItemClickListener() {
+//            @Override
+//            public void onItemClickListener(CommonViewHolder commonViewHolder, int position) {
+//                Toast.makeText(MainActivity.this, "position:" + position, Toast.LENGTH_SHORT).show();
+//            }
+//        });
+        adapter.setOnItemLongClickListener(new CommonRecyclerAdapter.OnItemLongClickListener() {
+            @Override
+            public void onItemLongClickListener(CommonViewHolder commonViewHolder, int position) {
+                Toast.makeText(MainActivity.this, "position:" + position, Toast.LENGTH_SHORT).show();
             }
         });
     }

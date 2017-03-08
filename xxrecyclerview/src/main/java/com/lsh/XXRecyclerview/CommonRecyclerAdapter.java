@@ -16,7 +16,7 @@ import java.util.List;
  * Date: 2017/2/24
  */
 
-public abstract class CommonRecyclerAdapter<T> extends RecyclerView.Adapter implements View.OnClickListener {
+public abstract class CommonRecyclerAdapter<T> extends RecyclerView.Adapter implements View.OnClickListener, View.OnLongClickListener {
 
     private Context mContext;
     private List<T> mDatas;
@@ -49,7 +49,9 @@ public abstract class CommonRecyclerAdapter<T> extends RecyclerView.Adapter impl
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (mMultiTypeSupport != null) mLayoutId = viewType;
         View view = mInflater.inflate(mLayoutId, parent, false);
+
         view.setOnClickListener(this);
+        view.setOnLongClickListener(this);
         CommonViewHolder commonViewHolder = new CommonViewHolder(view);
         return commonViewHolder;
     }
@@ -59,7 +61,7 @@ public abstract class CommonRecyclerAdapter<T> extends RecyclerView.Adapter impl
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
         CommonViewHolder commonViewHolder = (CommonViewHolder) holder;
-        commonViewHolder.getItemView().setTag(111111111, commonViewHolder);
+        commonViewHolder.getItemView().setTag(R.id.Tag_1, commonViewHolder);
         convert(commonViewHolder, mDatas.get(position), position);
     }
 
@@ -81,14 +83,24 @@ public abstract class CommonRecyclerAdapter<T> extends RecyclerView.Adapter impl
 
     @Override
     public void onClick(View v) {
-        CommonViewHolder commonViewHolder = (CommonViewHolder) v.getTag(111111111);
+        CommonViewHolder commonViewHolder = (CommonViewHolder) v.getTag(R.id.Tag_1);
         if (commonViewHolder != null) {
             int position = commonViewHolder.getPosition();
             if (mOnItemClickListener != null)
                 mOnItemClickListener.onItemClickListener(commonViewHolder, position);
+        }
+    }
+
+    @Override
+    public boolean onLongClick(View v) {
+        CommonViewHolder commonViewHolder = (CommonViewHolder) v.getTag(R.id.Tag_1);
+        if (commonViewHolder != null) {
+            int position = commonViewHolder.getPosition();
             if (mOnItemLongClickListener != null)
                 mOnItemLongClickListener.onItemLongClickListener(commonViewHolder, position);
+            return true;
         }
+        return false;
     }
 
     public interface OnItemClickListener {
