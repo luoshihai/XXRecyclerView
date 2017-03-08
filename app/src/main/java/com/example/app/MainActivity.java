@@ -34,24 +34,24 @@ public class MainActivity extends AppCompatActivity {
         rv = (XXRecycleView) findViewById(R.id.rv);
 //        View emptyView = findViewById(R.id.main_empty);
         ViewGroup rootView = (ViewGroup) rv.getRootView();
-        View emptyView = LayoutInflater.from(this).inflate(R.layout.empty_view, rootView,false);
-//        datas.add("aa");
-//        datas.add("bb");
-//        datas.add("cc");
-//        datas.add("dd");
-//        datas.add("aa");
-//        datas.add("bb");
-//        datas.add("cc");
-//        datas.add("dd");
-//        datas.add("aa");
-//        datas.add("bb");
-//        datas.add("cc");
-//        datas.add("dd");
-//        datas.add("aa");
-//        datas.add("bb");
-//        datas.add("cc");
-//        datas.add("dd");
-        rv.setLayoutManager(new GridLayoutManager(this,2, LinearLayoutManager.VERTICAL,false));
+        View emptyView = LayoutInflater.from(this).inflate(R.layout.empty_view, rootView, false);
+        datas.add("aa");
+        datas.add("bb");
+        datas.add("cc");
+        datas.add("dd");
+        datas.add("aa");
+        datas.add("bb");
+        datas.add("cc");
+        datas.add("dd");
+        datas.add("aa");
+        datas.add("bb");
+        datas.add("cc");
+        datas.add("dd");
+        datas.add("aa");
+        datas.add("bb");
+        datas.add("cc");
+        datas.add("dd");
+        rv.setLayoutManager(new GridLayoutManager(this, 2, LinearLayoutManager.VERTICAL, false));
 //        rv.setAdapter(new CommonRecyclerAdapter<String>(this, datas,android.R.layout.simple_list_item_1) {
 //
 //            @Override
@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
 
         };
         rv.setAdapter(adapter);
-        rv.setEmptyView(emptyView,true);
+        rv.setEmptyView(emptyView, true);
 //        WrapRecyclerAdapter wrapRecyclerAdapter = new WrapRecyclerAdapter(adapter);
         TextView headerView1 = new TextView(this);
         headerView1.setText("这是头部1");
@@ -105,24 +105,35 @@ public class MainActivity extends AppCompatActivity {
         rv.setOnLoadMoreListener(new XXRecycleView.OnLoadMoreListener() {
             @Override
             public void onLoad() {
+                Toast.makeText(MainActivity.this, "正在加载", Toast.LENGTH_SHORT).show();
                 mHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(MainActivity.this, "正在加载", Toast.LENGTH_SHORT).show();
                         rv.stopLoad();
                     }
                 }, 3000);
+            }
+
+            @Override
+            public void loadEnd() {
+                Toast.makeText(MainActivity.this, "加载完成", Toast.LENGTH_SHORT).show();
             }
         });
         rv.setOnRefreshListener(new PullRefreshRecycleView.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                Toast.makeText(MainActivity.this, "正在刷新", Toast.LENGTH_SHORT).show();
                 mHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         rv.stopRefresh();
                     }
                 }, 3000);
+            }
+
+            @Override
+            public void refreshEnd() {
+                Toast.makeText(MainActivity.this, "刷新完成", Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -13,7 +13,7 @@
        android:layout_width="match_parent"
        android:layout_height="match_parent"
        app:refreshEnabled = "true"
-       app:loadMoreEnabled = "false"
+       app:loadMoreEnabled = "true"
        >
 
    </com.lsh.XXRecyclerview.XXRecycleView>

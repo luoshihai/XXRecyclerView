@@ -251,6 +251,7 @@ public class PullRefreshRecycleView extends WrapRecyclerView {
         if (mRefreshCreator != null) {
             mRefreshCreator.onStopRefresh();
         }
+        if (mListener != null) mListener.refreshEnd();
     }
 
     // 处理刷新回调监听
@@ -261,7 +262,10 @@ public class PullRefreshRecycleView extends WrapRecyclerView {
     }
 
     public interface OnRefreshListener {
+        //正在刷新
         void onRefresh();
+        //刷新完成
+        void refreshEnd();
     }
 
     /**

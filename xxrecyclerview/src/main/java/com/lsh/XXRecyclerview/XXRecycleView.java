@@ -263,6 +263,7 @@ public class XXRecycleView extends PullRefreshRecycleView {
         if (mLoadCreator != null) {
             mLoadCreator.onStopLoad();
         }
+        if (mListener != null) mListener.loadEnd();
     }
 
     // 处理加载更多回调监听
@@ -274,6 +275,8 @@ public class XXRecycleView extends PullRefreshRecycleView {
 
     public interface OnLoadMoreListener {
         void onLoad();
+
+        void loadEnd();
     }
 
     /**
