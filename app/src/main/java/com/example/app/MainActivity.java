@@ -115,7 +115,8 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void loadEnd() {
-                Toast.makeText(MainActivity.this, "加载完成", Toast.LENGTH_SHORT).show();
+//                rv.stopLoad();
+//                Toast.makeText(MainActivity.this, "加载完成", Toast.LENGTH_SHORT).show();
                 rv.setLoadMoreEnabled(false);
             }
         });
@@ -133,7 +134,8 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void refreshEnd() {
-                Toast.makeText(MainActivity.this, "刷新完成", Toast.LENGTH_SHORT).show();
+//                rv.stopLoad();
+//                rv.setLoadMoreEnabled(false);
             }
         });
     }

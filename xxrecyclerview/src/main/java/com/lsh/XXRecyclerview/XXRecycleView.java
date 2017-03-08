@@ -92,7 +92,7 @@ public class XXRecycleView extends PullRefreshRecycleView {
                 break;
 
             case MotionEvent.ACTION_UP:
-                if (mLoadCreator == null) return super.dispatchTouchEvent(ev);
+                if (mLoadCreator == null || mLoadView == null) return super.dispatchTouchEvent(ev);
                 if (mCurrentDrag) {
                     restoreLoadView();
                 }
@@ -138,7 +138,7 @@ public class XXRecycleView extends PullRefreshRecycleView {
     public boolean onTouchEvent(MotionEvent e) {
         switch (e.getAction()) {
             case MotionEvent.ACTION_MOVE:
-                if (mLoadCreator == null) return super.onTouchEvent(e);
+                if (mLoadCreator == null || mLoadView == null) return super.onTouchEvent(e);
                 // 如果是在最底部才处理，否则不需要处理
                 if (canScrollDown() || mCurrentLoadStatus == LOAD_STATUS_LOADING) {
                     // 如果没有到达最底端，也就是说还可以向下滚动就什么都不处理
@@ -190,7 +190,7 @@ public class XXRecycleView extends PullRefreshRecycleView {
      */
     private void addRefreshView() {
         Adapter adapter = getAdapter();
-        if (adapter != null &&mLoadCreator != null) {
+        if (adapter != null && mLoadCreator != null) {
             // 添加底部加载更多View
             View loadView = mLoadCreator.getLoadView(getContext(), this);
             if (loadView != null) {
@@ -291,6 +291,8 @@ public class XXRecycleView extends PullRefreshRecycleView {
         } else {
             if (getAdapter() != null && getAdapter() instanceof WrapRecyclerAdapter) {
                 ((WrapRecyclerAdapter) getAdapter()).removeFooterView(mLoadView);
+                mLoadView = null;
+                mLoadCreator = null;
             } else {
                 Toast.makeText(getContext(), "please set adapter first", Toast.LENGTH_SHORT).show();
             }

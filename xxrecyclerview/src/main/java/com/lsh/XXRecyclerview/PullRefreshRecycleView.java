@@ -80,7 +80,7 @@ public class PullRefreshRecycleView extends WrapRecyclerView {
                 break;
 
             case MotionEvent.ACTION_UP:
-                if (mRefreshCreator == null) return super.dispatchTouchEvent(ev);
+                if (mRefreshCreator == null||mRefreshView == null) return super.dispatchTouchEvent(ev);
                 if (mCurrentDrag) {
 //                    updateRefreshStatus(marginTop);
                     restoreRefreshView();
@@ -134,7 +134,7 @@ public class PullRefreshRecycleView extends WrapRecyclerView {
     public boolean onTouchEvent(MotionEvent e) {
         switch (e.getAction()) {
             case MotionEvent.ACTION_MOVE:
-                if (mRefreshCreator == null) return super.onTouchEvent(e);
+                if (mRefreshCreator == null || mRefreshView == null) return super.onTouchEvent(e);
                 // 如果是在最顶部才处理，否则不需要处理
                 if (canScrollUp()) {
                     // 如果没有到达最顶端，也就是说还可以向上滚动就什么都不处理
@@ -282,6 +282,8 @@ public class PullRefreshRecycleView extends WrapRecyclerView {
         } else {
             if (getAdapter() != null && getAdapter() instanceof WrapRecyclerAdapter) {
                 ((WrapRecyclerAdapter) getAdapter()).removeHeaderView(mRefreshView);
+                mRefreshView = null;
+                mRefreshCreator = null;
             } else {
                 Toast.makeText(getContext(), "please set adapter first", Toast.LENGTH_SHORT).show();
             }
