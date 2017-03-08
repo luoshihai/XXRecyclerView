@@ -101,7 +101,8 @@ public class MainActivity extends AppCompatActivity {
 //        rv.addHeaderView(headerView1);
 //        rv.addFooterView(footerView1);
 //        rv.addLoadViewCreator(new DefaultLoadCreator());
-//        rv.setLoadMoreEnabled(true);
+        rv.setPullRefreshEnabled(true);
+        rv.setLoadMoreEnabled(true);
         rv.setOnLoadMoreListener(new XXRecycleView.OnLoadMoreListener() {
             @Override
             public void onLoad() {
@@ -117,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void loadEnd() {
                 Toast.makeText(MainActivity.this, "加载完成", Toast.LENGTH_SHORT).show();
+                rv.setLoadMoreEnabled(false);
             }
         });
         rv.setOnRefreshListener(new PullRefreshRecycleView.OnRefreshListener() {
@@ -126,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
                 mHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        rv.stopRefresh();
+                       rv.setPullRefreshEnabled(false);
                     }
                 }, 3000);
             }

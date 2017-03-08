@@ -4,7 +4,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    buildToolsVersion "25.0.0"
     defaultConfig {
 //        applicationId "com.lsh.XXRecyclerview"
         minSdkVersion 11
@@ -16,7 +16,8 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:recyclerview-v7:23.4.0'
+
+    compile 'com.android.support:recyclerview-v7:23.2.1'
 //    compile 'com.apkfuns.logutils:library:1.4.2.2'
 
 }

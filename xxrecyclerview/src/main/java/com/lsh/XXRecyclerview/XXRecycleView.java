@@ -290,7 +290,7 @@ public class XXRecycleView extends PullRefreshRecycleView {
             addLoadViewCreator(new DefaultLoadCreator());
         } else {
             if (getAdapter() != null && getAdapter() instanceof WrapRecyclerAdapter) {
-                ((WrapRecyclerAdapter) getAdapter()).removeHeaderView(mLoadView);
+                ((WrapRecyclerAdapter) getAdapter()).removeFooterView(mLoadView);
             } else {
                 Toast.makeText(getContext(), "please set adapter first", Toast.LENGTH_SHORT).show();
             }
