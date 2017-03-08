@@ -2,6 +2,7 @@ package com.lsh.XXRecyclerview;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
@@ -34,14 +35,15 @@ public class WrapRecyclerView extends RecyclerView {
 
     public WrapRecyclerView(Context context, @Nullable AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        setLayoutManager(new LinearLayoutManager(context));
     }
 
-    @Override
-    public void setLayoutManager(LayoutManager layout) {
-
-        super.setLayoutManager(layout);
-
-    }
+//    @Override
+//    public void setLayoutManager(LayoutManager layout) {
+//
+//        super.setLayoutManager(layout);
+//
+//    }
 
     private void checkIfEmpty() {
         Adapter adapter = getAdapter();

@@ -16,7 +16,6 @@ android {
 }
 
 dependencies {
-
     compile 'com.android.support:recyclerview-v7:23.2.1'
 //    compile 'com.apkfuns.logutils:library:1.4.2.2'
 
