@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,7 +20,7 @@ import java.util.List;
 public abstract class CommonRecyclerAdapter<T> extends RecyclerView.Adapter implements View.OnClickListener, View.OnLongClickListener {
 
     private Context mContext;
-    private List<T> mDatas;
+    private List<T> mDatas = new ArrayList<>();
     private int mLayoutId;
     private LayoutInflater mInflater;
     private MultiTypeSupport mMultiTypeSupport;
@@ -31,7 +32,7 @@ public abstract class CommonRecyclerAdapter<T> extends RecyclerView.Adapter impl
 
     public CommonRecyclerAdapter(Context context, List<T> datas, MultiTypeSupport multiTypeSupport) {
         this.mContext = context;
-        this.mDatas = datas;
+        this.mDatas.addAll(datas);
         this.mLayoutId = -1;
         this.mInflater = LayoutInflater.from(context);
         this.mMultiTypeSupport = multiTypeSupport;
