@@ -93,6 +93,7 @@ public abstract class CommonRecyclerAdapter<T> extends RecyclerView.Adapter impl
             if (mOnItemClickListener != null)
                 mOnItemClickListener.onItemClickListener(commonViewHolder, position);
         }
+
     }
 
     @Override
@@ -178,6 +179,5 @@ public abstract class CommonRecyclerAdapter<T> extends RecyclerView.Adapter impl
         mDatas.clear();
         notifyDataSetChanged();
     }
-
 
 }

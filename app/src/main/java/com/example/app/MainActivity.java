@@ -176,11 +176,5 @@ public class MainActivity extends AppCompatActivity {
 //                Toast.makeText(MainActivity.this, "position:" + position, Toast.LENGTH_SHORT).show();
 //            }
 //        });
-        adapter.setOnItemLongClickListener(new CommonRecyclerAdapter.OnItemLongClickListener() {
-            @Override
-            public void onItemLongClickListener(CommonViewHolder commonViewHolder, int position) {
-                Toast.makeText(MainActivity.this, "position:" + position, Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 }
