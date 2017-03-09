@@ -32,7 +32,7 @@ public abstract class CommonRecyclerAdapter<T> extends RecyclerView.Adapter impl
 
     public CommonRecyclerAdapter(Context context, List<T> datas, MultiTypeSupport multiTypeSupport) {
         this.mContext = context;
-        this.mDatas.addAll(datas);
+        if (datas != null) this.mDatas.addAll(datas);
         this.mLayoutId = -1;
         this.mInflater = LayoutInflater.from(context);
         this.mMultiTypeSupport = multiTypeSupport;
