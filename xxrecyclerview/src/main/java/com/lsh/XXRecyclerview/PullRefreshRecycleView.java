@@ -294,7 +294,8 @@ public class PullRefreshRecycleView extends WrapRecyclerView {
         }
     }
     public void setPullRefreshEnabled(boolean needDefaultRefreshView) {
-
         setPullRefreshEnabled(needDefaultRefreshView, null);
     }
+
+
 }

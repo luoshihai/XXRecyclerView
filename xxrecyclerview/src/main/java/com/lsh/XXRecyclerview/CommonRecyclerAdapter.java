@@ -81,6 +81,10 @@ public abstract class CommonRecyclerAdapter<T> extends RecyclerView.Adapter impl
         return mDatas == null ? 0 : mDatas.size();
     }
 
+    public List<T> getDatas() {
+        return mDatas;
+    }
+
     @Override
     public void onClick(View v) {
         CommonViewHolder commonViewHolder = (CommonViewHolder) v.getTag(R.id.Tag_1);
