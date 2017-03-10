@@ -18,12 +18,14 @@
             android:orientation="vertical">
 
             <TextView
+
                 android:id="@+id/xxrecyclerview_header_hint_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/xxrecyclerview_header_hint_normal"/>
 
             <LinearLayout
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp">

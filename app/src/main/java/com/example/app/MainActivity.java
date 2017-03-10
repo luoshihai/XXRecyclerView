@@ -147,21 +147,12 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void loadEnd() {
-//                rv.stopLoad();
-//                Toast.makeText(MainActivity.this, "加载完成", Toast.LENGTH_SHORT).show();
-                rv.setLoadMoreEnabled(false);
             }
         });
         rv.setOnRefreshListener(new PullRefreshRecycleView.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 Toast.makeText(MainActivity.this, "正在刷新", Toast.LENGTH_SHORT).show();
-                mHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                       rv.setPullRefreshEnabled(false);
-                    }
-                }, 3000);
             }
 
             @Override
