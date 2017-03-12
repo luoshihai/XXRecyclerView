@@ -11,11 +11,11 @@
         }
     }
 ```
-2.在自己Modul的build.gradle中添加```compile 'com.github.lshGitHubName:XXRecyclerView:v1.1.8''```
+2.在自己Modul的build.gradle中添加```compile 'com.github.luoshihai:XXRecyclerView:v1.1.8''```
 如下:
 ```java
 dependencies {
-	        compile 'com.github.lshGitHubName:XXRecyclerView:v1.1.8'
+	        compile 'com.github.luoshihai:XXRecyclerView:v1.1.8'
 	}
 ```
 ## 开始使用
