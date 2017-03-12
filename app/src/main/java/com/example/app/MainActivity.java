@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.lsh.XXRecyclerview.CommonRecyclerAdapter;
 import com.lsh.XXRecyclerview.CommonViewHolder;
@@ -83,7 +82,6 @@ public class MainActivity extends AppCompatActivity {
         datas.add("dd");
 //        rv.setLayoutManager(new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false));
 //        rv.setAdapter(new CommonRecyclerAdapter<String>(this, datas,android.R.layout.simple_list_item_1) {
-//
 //            @Override
 //            public void convert(CommonViewHolder helper, String item, int position, boolean itemChanged) {
 //                helper.setText(android.R.id.text1, item);
@@ -91,13 +89,14 @@ public class MainActivity extends AppCompatActivity {
 //
 //        });
 //        Toast.makeText(this, "设置适配器", Toast.LENGTH_SHORT).show();
-        CommonRecyclerAdapter<String> adapter = new CommonRecyclerAdapter<String>(this, datas, new MultiTypeSupport<String>() {
+        MultiTypeSupport<String> multiTypeSupport = new MultiTypeSupport<String>() {
             @Override
             public int getLayoutId(String item, int position) {
                 if (position % 2 == 0) return android.R.layout.simple_list_item_1;
                 return android.R.layout.simple_list_item_2;
             }
-        }) {
+        };
+        CommonRecyclerAdapter<String> adapter = new CommonRecyclerAdapter<String>(this, datas, multiTypeSupport) {
             @Override
             public void convert(CommonViewHolder holder, String s, int position, boolean isChanged) {
                 if (position % 2 == 0) {
@@ -111,7 +110,24 @@ public class MainActivity extends AppCompatActivity {
 
         };
         rv.setAdapter(adapter);
-        rv.setEmptyView(emptyView, true);
+        adapter.getDatas();
+        adapter.getItemCount();
+
+        adapter.setOnItemClickListener(new CommonRecyclerAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClickListener(CommonViewHolder commonViewHolder, int position) {
+
+            }
+        });
+        adapter.setOnItemLongClickListener(new CommonRecyclerAdapter.OnItemLongClickListener() {
+            @Override
+            public void onItemLongClickListener(CommonViewHolder commonViewHolder, int position) {
+
+            }
+        });
+        rv.setEmptyView(emptyView);
+        rv.setLoadMoreEnabled(true);
+        rv.setPullRefreshEnabled(true);
 //        WrapRecyclerAdapter wrapRecyclerAdapter = new WrapRecyclerAdapter(adapter);
         TextView headerView1 = new TextView(this);
         headerView1.setText("这是头部1");
@@ -131,43 +147,24 @@ public class MainActivity extends AppCompatActivity {
 //        rv.addHeaderView(headerView1);
 //        rv.addFooterView(footerView1);
 //        rv.addLoadViewCreator(new DefaultLoadCreator());
-        rv.setPullRefreshEnabled(true);
         rv.setLoadMoreEnabled(true);
+//        rv.setLoadMoreEnabled(false,false,myLoadViewCreator);
         rv.setOnLoadMoreListener(new XXRecycleView.OnLoadMoreListener() {
             @Override
             public void onLoad() {
-                Toast.makeText(MainActivity.this, "正在加载", Toast.LENGTH_SHORT).show();
-                mHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        rv.stopLoad();
-                    }
-                }, 3000);
+                rv.stopRefresh();
             }
 
             @Override
             public void loadEnd() {
-//                rv.stopLoad();
-//                Toast.makeText(MainActivity.this, "加载完成", Toast.LENGTH_SHORT).show();
-                rv.setLoadMoreEnabled(false);
             }
         });
         rv.setOnRefreshListener(new PullRefreshRecycleView.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                Toast.makeText(MainActivity.this, "正在刷新", Toast.LENGTH_SHORT).show();
-                mHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                       rv.setPullRefreshEnabled(false);
-                    }
-                }, 3000);
             }
-
             @Override
             public void refreshEnd() {
-//                rv.stopLoad();
-//                rv.setLoadMoreEnabled(false);
             }
         });
 //        adapter.setOnItemClickListener(new CommonRecyclerAdapter.OnItemClickListener() {
