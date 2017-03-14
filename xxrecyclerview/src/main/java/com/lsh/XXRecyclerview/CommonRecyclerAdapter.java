@@ -60,7 +60,6 @@ public abstract class CommonRecyclerAdapter<T> extends RecyclerView.Adapter impl
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
         CommonViewHolder commonViewHolder = (CommonViewHolder) holder;
         commonViewHolder.getItemView().setTag(R.id.Tag_1, commonViewHolder);
         convert(commonViewHolder, mDatas.get(position), position);
@@ -68,7 +67,13 @@ public abstract class CommonRecyclerAdapter<T> extends RecyclerView.Adapter impl
 
 //    public abstract void convert(CommonViewHolder holder, T t, int position);
 
-
+    /**
+     *
+     * @param helper
+     * @param item 每个条目的数据
+     * @param position 这个postition是包含头和脚的 请注意
+     * @param itemChanged 数据是否发生改变
+     */
     public abstract void convert(CommonViewHolder helper, T item, int position, boolean itemChanged);
 
     public void convert(CommonViewHolder helper, T item, int position) {
@@ -77,6 +82,10 @@ public abstract class CommonRecyclerAdapter<T> extends RecyclerView.Adapter impl
         convert(helper, item, position, itemChanged);
     }
 
+    /**
+     * 得到条目的数量, 这个数量是你数据的数量  不包含头和脚
+     * @return 条目的数量
+     */
     @Override
     public int getItemCount() {
         return mDatas == null ? 0 : mDatas.size();

@@ -55,6 +55,7 @@ public class DefaultLoadCreator extends LoadViewCreator {
 
     @Override
     public void onStopLoad() {
+        lastStatus = XXRecycleView.LOAD_STATUS_NORMAL;
         mProgressBar.setVisibility(View.INVISIBLE);
         xxrecylcerview_footer_hint_textview.setVisibility(View.VISIBLE);
         xxrecylcerview_footer_hint_textview.setText(R.string.xxrecyclerview_footer_hint_normal);

@@ -11,7 +11,6 @@ import android.widget.Toast;
 
 import com.lsh.XXRecyclerview.CommonRecyclerAdapter;
 import com.lsh.XXRecyclerview.CommonViewHolder;
-import com.lsh.XXRecyclerview.MultiTypeSupport;
 import com.lsh.XXRecyclerview.PullRefreshRecycleView;
 import com.lsh.XXRecyclerview.XXRecycleView;
 
@@ -82,35 +81,37 @@ public class MainActivity extends AppCompatActivity {
         datas.add("cc");
         datas.add("dd");
 //        rv.setLayoutManager(new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false));
-//        rv.setAdapter(new CommonRecyclerAdapter<String>(this, datas,android.R.layout.simple_list_item_1) {
-//
-//            @Override
-//            public void convert(CommonViewHolder helper, String item, int position, boolean itemChanged) {
-//                helper.setText(android.R.id.text1, item);
-//            }
-//
-//        });
-//        Toast.makeText(this, "设置适配器", Toast.LENGTH_SHORT).show();
-        CommonRecyclerAdapter<String> adapter = new CommonRecyclerAdapter<String>(this, datas, new MultiTypeSupport<String>() {
-            @Override
-            public int getLayoutId(String item, int position) {
-                if (position % 2 == 0) return android.R.layout.simple_list_item_1;
-                return android.R.layout.simple_list_item_2;
-            }
-        }) {
-            @Override
-            public void convert(CommonViewHolder holder, String s, int position, boolean isChanged) {
-                if (position % 2 == 0) {
-                    holder.setText(android.R.id.text1, s);
-                } else {
-                    holder.setText(android.R.id.text1, s);
-                    holder.setText(android.R.id.text2, s);
-                }
+        CommonRecyclerAdapter<String> recyclerAdapter = new CommonRecyclerAdapter<String>(this, datas, android.R.layout.simple_list_item_1) {
 
+            @Override
+            public void convert(CommonViewHolder helper, String item, int position, boolean itemChanged) {
+                helper.setText(android.R.id.text1, item);
             }
 
         };
-        rv.setAdapter(adapter);
+        rv.setAdapter(recyclerAdapter);
+//        Toast.makeText(this, "设置适配器", Toast.LENGTH_SHORT).show();
+//        CommonRecyclerAdapter<String> adapter = new CommonRecyclerAdapter<String>(this, datas, new MultiTypeSupport<String>() {
+//            @Override
+//            public int getLayoutId(String item, int position) {
+//                if (position % 2 == 0) return android.R.layout.simple_list_item_1;
+//                return android.R.layout.simple_list_item_2;
+//            }
+//        }) {
+//            @Override
+//            public void convert(CommonViewHolder holder, String s, int position, boolean isChanged) {
+//                if (position % 2 == 0) {
+//                    holder.setText(android.R.id.text1, s);
+//
+//                } else {
+//                    holder.setText(android.R.id.text1, s);
+//                    holder.setText(android.R.id.text2, s);
+//                }
+//
+//            }
+//
+//        };
+//        rv.setAdapter(adapter);
         rv.setEmptyView(emptyView, true);
 //        WrapRecyclerAdapter wrapRecyclerAdapter = new WrapRecyclerAdapter(adapter);
         TextView headerView1 = new TextView(this);
@@ -118,13 +119,13 @@ public class MainActivity extends AppCompatActivity {
 //        TextView headerView2 = new TextView(this);
 //        headerView2.setText("这是头部2");
 //        wrapRecyclerAdapter.addHeaderView(headerView);
-//        TextView footerView1 = new TextView(this);
-//        footerView1.setText("这是脚部1");
+        TextView footerView1 = new TextView(this);
+        footerView1.setText("这是脚部1");
 //        TextView footerView2 = new TextView(this);
 //        footerView2.setText("这是脚部2");
 //        wrapRecyclerAdapter.addFooterView(footerView);
 //        rv.addHeaderView(headerView2);
-//        rv.addFooterView(footerView1);
+        rv.addFooterView(footerView1);
 //        rv.addFooterView(footerView2);
 //        rv.setPullRefreshEnabled(true);
 //        rv.addRefreshViewCreator(new DefaultRefreshCreator());
@@ -167,5 +168,10 @@ public class MainActivity extends AppCompatActivity {
 //                Toast.makeText(MainActivity.this, "position:" + position, Toast.LENGTH_SHORT).show();
 //            }
 //        });
+        int footerCount = rv.getFooterCount();
+        int headerCount = rv.getHeaderCount();
+//        Toast.makeText(this, "footerCount:" + footerCount, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "headerCount:" + headerCount, Toast.LENGTH_SHORT).show();
+
     }
 }

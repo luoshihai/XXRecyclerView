@@ -15,8 +15,8 @@ import android.view.ViewGroup;
 
 public class WrapRecyclerAdapter extends RecyclerView.Adapter {
 
-    private SparseArray<View> mHeaderViews;
-    private SparseArray<View> mFooterViews;
+    protected SparseArray<View> mHeaderViews;
+    protected SparseArray<View> mFooterViews;
 
 
     private static int BASE_ITEN_HEADER = 100000;
@@ -133,6 +133,8 @@ public class WrapRecyclerAdapter extends RecyclerView.Adapter {
             notifyDataSetChanged();
         }
     }
+
+
 
     public int getHeaderCount() {
         return mHeaderViews == null ? 0 : mHeaderViews.size();

@@ -97,6 +97,31 @@ public class CommonViewHolder extends RecyclerView.ViewHolder {
         return this;
     }
 
+    /**
+     *
+     * @param viewId 资源文件id
+     * @param onClickListener 点击监听回调
+     * @return
+     */
+
+    public CommonViewHolder setOnClickListener(int viewId,View.OnClickListener onClickListener) {
+        View view = getView(viewId);
+        view.setOnClickListener(onClickListener);
+        return this;
+    }
+
+    /**
+     *
+     * @param viewId 资源文件id
+     * @param onLongClickListener 长按回调
+     * @return
+     */
+    public CommonViewHolder setOnLongClickListener(int viewId,View.OnLongClickListener onLongClickListener) {
+        View view = getView(viewId);
+        view.setOnLongClickListener(onLongClickListener);
+        return this;
+    }
+
 
     //用来装该view最后一次显示的数据
     public Object getAssociatedObject() {

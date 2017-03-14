@@ -297,5 +297,16 @@ public class PullRefreshRecycleView extends WrapRecyclerView {
         setPullRefreshEnabled(needDefaultRefreshView, null);
     }
 
-
+    /**
+     * 如果没有设置adapter 或者其他未知问题返回-1
+     * @return 头的数量
+     */
+    public int getHeaderCount() {
+        Adapter adapter = getAdapter();
+        if (adapter != null && adapter instanceof WrapRecyclerAdapter) {
+            int headerCount = ((WrapRecyclerAdapter) adapter).getHeaderCount();
+            return headerCount;
+        }
+        return -1;
+    }
 }

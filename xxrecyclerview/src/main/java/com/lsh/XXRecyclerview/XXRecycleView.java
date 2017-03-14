@@ -310,6 +310,19 @@ public class XXRecycleView extends PullRefreshRecycleView {
         if (loadCreator != null) addLoadViewCreator(loadCreator);
     }
 
+    /**
+     * 如果没有设置adapter 或者其他未知问题 返回-1
+     * @return  脚的数量
+     */
+    public int getFooterCount() {
+        Adapter adapter = getAdapter();
+        if (adapter != null && adapter instanceof WrapRecyclerAdapter) {
+            int footerCount = ((WrapRecyclerAdapter) adapter).getFooterCount();
+            return footerCount;
+        }
+        return -1;
+    }
+
     public void setLoadMoreEnabled(boolean needDefaultLoadView, boolean showLoadMoreFirst) {
         setLoadMoreEnabled(needDefaultLoadView, showLoadMoreFirst, null);
     }
