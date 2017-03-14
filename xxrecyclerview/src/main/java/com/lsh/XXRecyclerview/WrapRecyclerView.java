@@ -1,10 +1,12 @@
 package com.lsh.XXRecyclerview;
 
 import android.content.Context;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -112,6 +114,11 @@ public class WrapRecyclerView extends RecyclerView {
         if (mWrapRecyclerAdapter != null) mWrapRecyclerAdapter.removeFooterView(view);
     }
 
+    /**
+     * 设置空布局
+     * @param view
+     * @param isShowEmptyViewWhenHasHeaderOrFooder  当有头有脚的时候是否显示空布局
+     */
     public void setEmptyView(View view, boolean isShowEmptyViewWhenHasHeaderOrFooder) {
         this.emptyView = view;
         this.isShowEmptyViewWhenHasHeaderOrFooder = isShowEmptyViewWhenHasHeaderOrFooder;
@@ -123,8 +130,37 @@ public class WrapRecyclerView extends RecyclerView {
         checkIfEmpty();
     }
 
+    /**
+     * 使用默认的空布局
+     */
+    public void setEmptyView() {
+        setEmptyView(R.layout.empty_view);
+    }
+    /**
+     * 设置空布局
+     * @param view
+     */
     public void setEmptyView(View view) {
         setEmptyView(view, false);
+    }
+
+    /**
+     * 设置空布局
+     * @param resurceId 布局id
+     */
+    public void setEmptyView(@LayoutRes int resurceId) {
+       setEmptyView(resurceId,false);
+    }
+
+    /**
+     * 设置空布局
+     * @param resurceId  资源ID
+     * @param isShowEmptyViewWhenHasHeaderOrFooder 当有头有脚的时候是否显示空布局
+     */
+    public void setEmptyView(@LayoutRes int resurceId,boolean isShowEmptyViewWhenHasHeaderOrFooder) {
+        ViewGroup rootView = (ViewGroup) getParent();
+        View emptyView = LayoutInflater.from(getContext()).inflate(resurceId, rootView, false);
+        setEmptyView(emptyView,isShowEmptyViewWhenHasHeaderOrFooder);
     }
 
     private AdapterDataObserver mDataObserver = new AdapterDataObserver() {

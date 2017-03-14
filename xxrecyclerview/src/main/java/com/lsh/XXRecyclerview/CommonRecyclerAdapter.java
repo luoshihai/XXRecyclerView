@@ -129,34 +129,64 @@ public abstract class CommonRecyclerAdapter<T> extends RecyclerView.Adapter impl
     public OnItemLongClickListener mOnItemLongClickListener;
     public OnItemClickListener mOnItemClickListener;
 
+    /**
+     * 设置条目长按监听
+     * @param onItemLongClickListener
+     */
     public void setOnItemLongClickListener(OnItemLongClickListener onItemLongClickListener) {
         mOnItemLongClickListener = onItemLongClickListener;
     }
 
+    /**
+     * 设置条目点击监听
+     * @param onItemClickListener
+     */
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         mOnItemClickListener = onItemClickListener;
     }
 
+    /**
+     * 替换数据 和replaceAll()方法重复
+     * @param datas
+     */
     public void notifydataChanged(List<T> datas) {
         mDatas.clear();
         mDatas.addAll(datas);
         notifyDataSetChanged();
     }
 
+    /**
+     * 添加一个条目
+     * @param elem
+     */
     public void add(T elem) {
         mDatas.add(elem);
         notifyDataSetChanged();
     }
 
+    /**
+     * 添加一个集合数据
+     * @param elem
+     */
     public void addAll(List<T> elem) {
         mDatas.addAll(elem);
         notifyDataSetChanged();
     }
 
+    /**
+     * 替换某个位置的数据
+     * @param oldElem
+     * @param newElem
+     */
     public void set(T oldElem, T newElem) {
         setAt(mDatas.indexOf(oldElem), newElem);
     }
 
+    /**
+     * 替换某个位置的数据
+     * @param index
+     * @param elem
+     */
     public void setAt(int index, T elem) {
         mDatas.set(index, elem);
         notifyDataSetChanged();
@@ -167,17 +197,30 @@ public abstract class CommonRecyclerAdapter<T> extends RecyclerView.Adapter impl
         notifyDataSetChanged();
     }
 
+    /**
+     * 移除某个条目
+     * @param index  在datas中的角标
+     */
     public void removeAt(int index) {
         mDatas.remove(index);
         notifyDataSetChanged();
     }
 
+    /**
+     * 替换全部
+     * @param elem
+     */
     public void replaceAll(List<T> elem) {
         mDatas.clear();
         mDatas.addAll(elem);
         notifyDataSetChanged();
     }
 
+    /**
+     * 是否包含某个条目
+     * @param elem
+     * @return
+     */
     public boolean contains(T elem) {
         return mDatas.contains(elem);
     }

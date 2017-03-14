@@ -41,7 +41,7 @@ dependencies {
             public void refreshEnd() {//刷新完成回调
             }
         });
-  ```
+```
 * ```java
   rv.setOnLoadMoreListener(new XXRecycleView.OnLoadMoreListener() {
             @Override

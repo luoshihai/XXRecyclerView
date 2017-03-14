@@ -11,6 +11,9 @@ import android.view.ViewGroup;
  * Date: 2017/2/24
  */
 
+/**
+ * 下拉刷新view的父类
+ */
 public abstract class RefreshViewCreator {
 
     public abstract View getRefreshView(Context context, ViewGroup parent);
