@@ -2,6 +2,7 @@ package com.lsh.XXRecyclerview;
 
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
@@ -133,7 +134,18 @@ public class WrapRecyclerAdapter extends RecyclerView.Adapter {
             notifyDataSetChanged();
         }
     }
-
+    @Override
+    public void onViewAttachedToWindow(RecyclerView.ViewHolder holder) {
+        super.onViewAttachedToWindow(holder);
+        int position = holder.getPosition();
+        if (isHeaderPosition(position) || isFooterPosition(position)) {
+            ViewGroup.LayoutParams layoutParams = holder.itemView.getLayoutParams();
+            if (layoutParams != null && layoutParams instanceof StaggeredGridLayoutManager.LayoutParams) {
+                StaggeredGridLayoutManager.LayoutParams params = (StaggeredGridLayoutManager.LayoutParams) layoutParams;
+                params.setFullSpan(true);
+            }
+        }
+    }
 
 
     public int getHeaderCount() {
@@ -142,6 +154,7 @@ public class WrapRecyclerAdapter extends RecyclerView.Adapter {
     public int getFooterCount() {
         return mFooterViews == null ? 0 : mFooterViews.size();
     }
+
     public void adjustSpanSize(RecyclerView recyclerView) {
         if (recyclerView.getLayoutManager() instanceof GridLayoutManager) {
             final GridLayoutManager layoutManager = (GridLayoutManager) recyclerView.getLayoutManager();

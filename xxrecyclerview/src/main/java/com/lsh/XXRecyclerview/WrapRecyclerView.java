@@ -114,6 +114,10 @@ public class WrapRecyclerView extends RecyclerView {
         if (mWrapRecyclerAdapter != null) mWrapRecyclerAdapter.removeFooterView(view);
     }
 
+
+
+
+
     /**
      * 设置空布局
      * @param view

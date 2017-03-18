@@ -105,6 +105,7 @@ public class XXRecycleView extends PullRefreshRecycleView {
      * 重置当前加载更多状态
      */
     private void restoreLoadView() {
+        if (mLoadView == null) return;
         int currentBottomMargin = ((MarginLayoutParams) mLoadView.getLayoutParams()).bottomMargin;
         int tempBottomMargin = finalBottomMargin;
         if (mCurrentLoadStatus == LOAD_STATUS_LOOSEN_LOADING) {

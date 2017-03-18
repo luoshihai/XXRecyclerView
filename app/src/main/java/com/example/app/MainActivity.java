@@ -1,13 +1,16 @@
 package com.example.app;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lsh.XXRecyclerview.CommonRecyclerAdapter;
 import com.lsh.XXRecyclerview.CommonViewHolder;
+import com.lsh.XXRecyclerview.MultiTypeSupport;
 import com.lsh.XXRecyclerview.PullRefreshRecycleView;
 import com.lsh.XXRecyclerview.XXRecycleView;
 
@@ -20,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ArrayList<String> datas = new ArrayList<>();
     Handler mHandler = new Handler();
+    int i = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,86 +33,92 @@ public class MainActivity extends AppCompatActivity {
 //        View emptyView = findViewById(R.id.main_empty);
 //        ViewGroup rootView = (ViewGroup) rv.getRootView();
 //        View emptyView = LayoutInflater.from(this).inflate(R.layout.empty_view, rootView, false);
-//        datas.add("aa");
-//        datas.add("bb");
-//        datas.add("cc");
-//        datas.add("dd");
-//        datas.add("aa");
-//        datas.add("bb");
-//        datas.add("cc");
-//        datas.add("dd");
-//        datas.add("aa");
-//        datas.add("bb");
-//        datas.add("cc");
-//        datas.add("dd");
-//        datas.add("aa");
-//        datas.add("bb");
-//        datas.add("cc");
-//        datas.add("dd");
-//        datas.add("aa");
-//        datas.add("bb");
-//        datas.add("cc");
-//        datas.add("dd");
-//        datas.add("aa");
-//        datas.add("bb");
-//        datas.add("cc");
-//        datas.add("dd");
-//        datas.add("aa");
-//        datas.add("bb");
-//        datas.add("cc");
-//        datas.add("dd");
-//        datas.add("aa");
-//        datas.add("bb");
-//        datas.add("cc");
-//        datas.add("dd");
-//        datas.add("aa");
-//        datas.add("bb");
-//        datas.add("cc");
-//        datas.add("dd");
-//        datas.add("aa");
-//        datas.add("bb");
-//        datas.add("cc");
-//        datas.add("dd");
-//        datas.add("aa");
-//        datas.add("bb");
-//        datas.add("cc");
-//        datas.add("dd");
-//        datas.add("aa");
-//        datas.add("bb");
-//        datas.add("cc");
-//        datas.add("dd");
+        datas.add("1");
+        datas.add("2");
+        datas.add("3");
+        datas.add("4");
+        datas.add("5");
+        datas.add("6");
+        datas.add("7");
+        datas.add("8");
+        datas.add("9");
+        datas.add("10");
+        datas.add("11");
+        datas.add("12");
+        datas.add("13");
+        datas.add("14");
+        datas.add("aa");
+        datas.add("bb");
+        datas.add("cc");
+        datas.add("dd");
+        datas.add("aa");
+        datas.add("bb");
+        datas.add("cc");
+        datas.add("dd");
+        datas.add("aa");
+        datas.add("bb");
+        datas.add("cc");
+        datas.add("dd");
+        datas.add("aa");
+        datas.add("bb");
+        datas.add("cc");
+        datas.add("dd");
+        datas.add("aa");
+        datas.add("bb");
+        datas.add("cc");
+        datas.add("dd");
+        datas.add("aa");
+        datas.add("bb");
+        datas.add("cc");
+        datas.add("dd");
+        datas.add("aa");
+        datas.add("bb");
+        datas.add("cc");
+        datas.add("dd");
 //        rv.setLayoutManager(new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false));
-        CommonRecyclerAdapter<String> recyclerAdapter = new CommonRecyclerAdapter<String>(this, datas, android.R.layout.simple_list_item_1) {
-
-            @Override
-            public void convert(CommonViewHolder helper, String item, int position, boolean itemChanged) {
-                helper.setText(android.R.id.text1, item);
-            }
-
-        };
-        rv.setAdapter(recyclerAdapter);
-//        Toast.makeText(this, "设置适配器", Toast.LENGTH_SHORT).show();
-//        CommonRecyclerAdapter<String> adapter = new CommonRecyclerAdapter<String>(this, datas, new MultiTypeSupport<String>() {
-//            @Override
-//            public int getLayoutId(String item, int position) {
-//                if (position % 2 == 0) return android.R.layout.simple_list_item_1;
-//                return android.R.layout.simple_list_item_2;
-//            }
-//        }) {
-//            @Override
-//            public void convert(CommonViewHolder holder, String s, int position, boolean isChanged) {
-//                if (position % 2 == 0) {
-//                    holder.setText(android.R.id.text1, s);
+//        final CommonRecyclerAdapter<String> recyclerAdapter = new CommonRecyclerAdapter<String>(this, datas, android.R.layout.simple_list_item_1) {
 //
+//            @Override
+//            public void convert(CommonViewHolder helper, String item, int position, boolean itemChanged) {
+//                helper.setText(android.R.id.text1, item);
+//            }
+//
+//        };
+//        rv.setAdapter(recyclerAdapter);
+//        Toast.makeText(this, "设置适配器", Toast.LENGTH_SHORT).show();
+        CommonRecyclerAdapter<String> adapter = new CommonRecyclerAdapter<String>(this, datas, new MultiTypeSupport<String>() {
+            @Override
+            public int getLayoutId(String item, int position) {
+                if (position % 3 == 0) return android.R.layout.simple_list_item_1;
+                return android.R.layout.simple_list_item_2;
+            }
+        }) {
+            @Override
+            public void convert(CommonViewHolder holder, String s, int position, boolean isChanged) {
+//                if (position % 2 == 0) {
+
+
+                if (position % 3 == 0) {
+                    holder.setText(android.R.id.text1, s);
+                    holder.getView(android.R.id.text1).setBackgroundColor(Color.RED);
+                } else {
+                    holder.setText(android.R.id.text1, s);
+                    holder.setText(android.R.id.text2, s);
+                    holder.getView(android.R.id.text1).setBackgroundColor(Color.GRAY);
+                    holder.getView(android.R.id.text2).setBackgroundColor(Color.GRAY);
+
+                }
 //                } else {
 //                    holder.setText(android.R.id.text1, s);
 //                    holder.setText(android.R.id.text2, s);
 //                }
-//
-//            }
-//
-//        };
-//        rv.setAdapter(adapter);
+
+            }
+
+        };
+//        rv.setLayoutManager(new StaggeredGridLayoutManager(4,StaggeredGridLayoutManager.VERTICAL));
+        rv.setLayoutManager(new GridLayoutManager(this,4));
+        rv.setAdapter(adapter);
         rv.setEmptyView();
 //        WrapRecyclerAdapter wrapRecyclerAdapter = new WrapRecyclerAdapter(adapter);
         TextView headerView1 = new TextView(this);
@@ -131,16 +141,23 @@ public class MainActivity extends AppCompatActivity {
 //        rv.addLoadViewCreator(new DefaultLoadCreator());
         rv.setPullRefreshEnabled(true);
         rv.setLoadMoreEnabled(true);
+
         rv.setOnLoadMoreListener(new XXRecycleView.OnLoadMoreListener() {
             @Override
             public void onLoad() {
-                Toast.makeText(MainActivity.this, "正在加载", Toast.LENGTH_SHORT).show();
-                mHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        rv.stopLoad();
-                    }
-                }, 3000);
+//                i++;
+//                if (i < 4) {
+//                    recyclerAdapter.addAll(datas);
+//                    rv.setLoadMoreEnabled(true);
+//                } else {
+//                    rv.setLoadMoreEnabled(false);
+//                }
+//                rv.postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        rv.stopLoad();
+//                    }
+//                }, 2000);
             }
 
             @Override
