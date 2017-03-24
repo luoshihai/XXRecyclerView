@@ -73,13 +73,13 @@ public class XXRecycleView extends PullRefreshRecycleView {
     // 所以我们不能直接添加View，需要利用辅助类
     public void addLoadViewCreator(LoadViewCreator loadCreator) {
         this.mLoadCreator = loadCreator;
-        addRefreshView();
+        addLoadView();
     }
 
     @Override
     public void setAdapter(Adapter adapter) {
         super.setAdapter(adapter);
-        addRefreshView();
+        addLoadView();
     }
 
     @Override
@@ -189,7 +189,7 @@ public class XXRecycleView extends PullRefreshRecycleView {
     /**
      * 添加底部加载更多View
      */
-    private void addRefreshView() {
+    private void addLoadView() {
         Adapter adapter = getAdapter();
         if (adapter != null && mLoadCreator != null) {
             // 添加底部加载更多View
@@ -332,4 +332,7 @@ public class XXRecycleView extends PullRefreshRecycleView {
         setLoadMoreEnabled(needDefaultLoadView, true);
     }
 
+    public View getLoadView() {
+        return mLoadView;
+    }
 }

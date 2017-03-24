@@ -192,7 +192,7 @@ public class PullRefreshRecycleView extends WrapRecyclerView {
             if (refreshView != null) {
                 addHeaderView(refreshView);
                 if (mRefreshView != null) {
-                    ((WrapRecyclerAdapter) adapter).removeFooterView(mRefreshView);
+                    ((WrapRecyclerAdapter) adapter).removeHeaderView(mRefreshView);
                 }
                 this.mRefreshView = refreshView;
             }
@@ -308,5 +308,9 @@ public class PullRefreshRecycleView extends WrapRecyclerView {
             return headerCount;
         }
         return -1;
+    }
+
+    public View getRefreshView() {
+        return mRefreshView;
     }
 }

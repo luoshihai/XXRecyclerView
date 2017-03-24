@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+
+
+    <RelativeLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dp_17"
+        android:layout_marginTop="@dimen/dp_13"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/tv_lin"
+            android:layout_width="@dimen/dp_4"
+            android:layout_height="@dimen/dp_35"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:background="@color/blue3"/>
+
+        <TextView
+            android:id="@+id/tv_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:layout_toRightOf="@id/tv_lin"
+            android:text="2017923533"
+            android:textColor="@color/black"
+            android:textSize="@dimen/dp_17"/>
+
+        <TextView
+            android:layout_alignTop="@id/tv_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/dp_20"
+            android:text="重要客户"
+            android:textColor="@color/red1"/>
+
+        <TextView
+            android:id="@+id/tv_company"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/tv_number"
+            android:layout_below="@id/tv_number"
+            android:layout_marginTop="@dimen/dp_4"
+            android:layout_toRightOf="@id/tv_lin"
+            android:text="江苏苏宁易购有限公司"/>
+
+        <TextView
+            android:id="@+id/tv_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/tv_number"
+            android:layout_below="@id/tv_company"
+            android:layout_marginTop="@dimen/dp_4"
+            android:text="¥20,000.00"
+            android:textColor="@color/red1"/>
+
+        <TextView
+            android:id="@+id/tv_fuzeren"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/tv_number"
+            android:layout_below="@id/tv_price"
+            android:layout_marginTop="@dimen/dp_4"
+            android:text="负责人: "/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_price"
+            android:layout_marginLeft="@dimen/dp_7"
+            android:layout_toRightOf="@id/tv_fuzeren"
+            android:text="刘娜 | 销售部"/>
+
+        <TextView
+            android:id="@+id/tv_chengjiao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/tv_number"
+            android:layout_below="@id/tv_fuzeren"
+            android:layout_marginTop="@dimen/dp_30"
+            android:text="成交金额: "/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/tv_chengjiao"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_toRightOf="@id/tv_chengjiao"
+            android:text="0.00元"
+            />
+
+        <TextView
+            android:id="@+id/tv_huikuan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/tv_number"
+            android:layout_below="@id/tv_chengjiao"
+            android:layout_marginTop="@dimen/dp_4"
+            android:text="回款金额: "/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/tv_huikuan"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_toRightOf="@id/tv_huikuan"
+            android:text="0.00元"/>
+
+
+        <TextView
+            android:id="@+id/tv_daihuikuan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/tv_number"
+            android:layout_below="@id/tv_huikuan"
+            android:layout_marginTop="@dimen/dp_4"
+            android:text="待回款总额: "/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/tv_daihuikuan"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_toRightOf="@id/tv_daihuikuan"
+            android:text="0.00元"/>
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:id="@+id/ll_chose"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_sale"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:layout_weight="2"
+            android:background="@drawable/lin_home_pre_blue"
+            android:gravity="center"
+            android:lines="1"
+            android:paddingBottom="@dimen/dp_13"
+            android:paddingTop="@dimen/dp_13"
+            android:text="销售记录"
+            android:textSize="@dimen/dp_17"/>
+
+        <TextView
+            android:id="@+id/tv_detail"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.5"
+            android:background="@drawable/lin_home_pre_blue"
+            android:gravity="center"
+            android:paddingBottom="@dimen/dp_13"
+            android:paddingTop="@dimen/dp_13"
+            android:text="详情"
+            android:textSize="@dimen/dp_17"/>
+
+        <TextView
+            android:id="@+id/tv_contact"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.5"
+            android:background="@drawable/lin_home_pre_blue"
+            android:gravity="center"
+            android:paddingBottom="@dimen/dp_13"
+            android:paddingTop="@dimen/dp_13"
+            android:text="联系人"
+            android:textSize="@dimen/dp_17"/>
+
+
+        <TextView
+            android:id="@+id/tv_hetong"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/dp_13"
+            android:layout_weight="1.5"
+            android:background="@drawable/lin_home_pre_blue"
+            android:gravity="center"
+            android:paddingBottom="@dimen/dp_13"
+            android:paddingTop="@dimen/dp_13"
+            android:text="合同"
+            android:textSize="@dimen/dp_17"/>
+    </LinearLayout>
+
+</LinearLayout>

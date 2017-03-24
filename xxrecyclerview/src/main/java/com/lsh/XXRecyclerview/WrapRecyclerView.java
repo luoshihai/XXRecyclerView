@@ -97,6 +97,15 @@ public class WrapRecyclerView extends RecyclerView {
         }
     }
 
+    public void addRefreshView(View view) {
+        if (mWrapRecyclerAdapter != null) {
+            mWrapRecyclerAdapter.addHeaderView(view);
+        } else {
+            if (tempHeaderView == null) tempHeaderView = new ArrayList<>();
+            tempHeaderView.add(view);
+        }
+    }
+
     public void addFooterView(View view) {
         if (mWrapRecyclerAdapter != null) {
             mWrapRecyclerAdapter.addFooterView(view);

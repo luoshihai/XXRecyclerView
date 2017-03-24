@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -119,8 +121,12 @@ public class MainActivity extends AppCompatActivity {
 //        rv.setLayoutManager(new StaggeredGridLayoutManager(4,StaggeredGridLayoutManager.VERTICAL));
         rv.setLayoutManager(new GridLayoutManager(this,4));
         rv.setAdapter(adapter);
-        rv.setEmptyView();
 //        WrapRecyclerAdapter wrapRecyclerAdapter = new WrapRecyclerAdapter(adapter);
+        rv.setPullRefreshEnabled(true);
+        rv.setLoadMoreEnabled(true);
+        View header = LayoutInflater.from(this).inflate(R.layout.kehu_detail_header, null);
+        rv.addHeaderView(header);
+
         TextView headerView1 = new TextView(this);
         headerView1.setText("这是头部1");
 //        TextView headerView2 = new TextView(this);
@@ -139,9 +145,6 @@ public class MainActivity extends AppCompatActivity {
 //        rv.addHeaderView(headerView1);
 //        rv.addFooterView(footerView1);
 //        rv.addLoadViewCreator(new DefaultLoadCreator());
-        rv.setPullRefreshEnabled(true);
-        rv.setLoadMoreEnabled(true);
-
         rv.setOnLoadMoreListener(new XXRecycleView.OnLoadMoreListener() {
             @Override
             public void onLoad() {
