@@ -164,6 +164,10 @@ public abstract class CommonRecyclerAdapter<T> extends RecyclerView.Adapter impl
         notifyDataSetChanged();
     }
 
+    public void addAt(int index, T elem) {
+        mDatas.add(index, elem);
+        notifyDataSetChanged();
+    }
     /**
      * 添加一个集合数据
      * @param elem

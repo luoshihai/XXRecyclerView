@@ -4,7 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -116,8 +116,8 @@ public class MainActivity extends AppCompatActivity {
             }
 
         };
-//        rv.setLayoutManager(new StaggeredGridLayoutManager(4,StaggeredGridLayoutManager.VERTICAL));
-        rv.setLayoutManager(new GridLayoutManager(this,4));
+        rv.setLayoutManager(new StaggeredGridLayoutManager(4,StaggeredGridLayoutManager.VERTICAL));
+//        rv.setLayoutManager(new GridLayoutManager(this,4));
         rv.setAdapter(adapter);
         rv.setEmptyView();
 //        WrapRecyclerAdapter wrapRecyclerAdapter = new WrapRecyclerAdapter(adapter);
