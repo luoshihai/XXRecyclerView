@@ -44,6 +44,7 @@ public class XXRecycleView extends PullRefreshRecycleView {
     // 正在加载更多状态
     public static int LOAD_STATUS_LOADING = 0x0044;
 
+    public boolean canLoad = true;
     public XXRecycleView(Context context) {
         this(context, null);
     }
@@ -73,13 +74,13 @@ public class XXRecycleView extends PullRefreshRecycleView {
     // 所以我们不能直接添加View，需要利用辅助类
     public void addLoadViewCreator(LoadViewCreator loadCreator) {
         this.mLoadCreator = loadCreator;
-        addRefreshView();
+        addLoadView();
     }
 
     @Override
     public void setAdapter(Adapter adapter) {
         super.setAdapter(adapter);
-        addRefreshView();
+        addLoadView();
     }
 
     @Override
@@ -139,7 +140,7 @@ public class XXRecycleView extends PullRefreshRecycleView {
     public boolean onTouchEvent(MotionEvent e) {
         switch (e.getAction()) {
             case MotionEvent.ACTION_MOVE:
-                if (mLoadCreator == null || mLoadView == null) return super.onTouchEvent(e);
+                if (mLoadCreator == null || mLoadView == null  || !canLoad) return super.onTouchEvent(e);
                 // 如果是在最底部才处理，否则不需要处理
                 if (canScrollDown() || mCurrentLoadStatus == LOAD_STATUS_LOADING) {
                     // 如果没有到达最底端，也就是说还可以向下滚动就什么都不处理
@@ -189,7 +190,7 @@ public class XXRecycleView extends PullRefreshRecycleView {
     /**
      * 添加底部加载更多View
      */
-    private void addRefreshView() {
+    private void addLoadView() {
         Adapter adapter = getAdapter();
         if (adapter != null && mLoadCreator != null) {
             // 添加底部加载更多View
@@ -332,4 +333,11 @@ public class XXRecycleView extends PullRefreshRecycleView {
         setLoadMoreEnabled(needDefaultLoadView, true);
     }
 
+    public View getLoadView() {
+        return mLoadView;
+    }
+
+    public void setCanLoad(boolean canLoad) {
+        this.canLoad = canLoad;
+    }
 }

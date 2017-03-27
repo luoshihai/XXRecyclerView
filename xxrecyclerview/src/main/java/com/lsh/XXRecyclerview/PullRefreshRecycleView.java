@@ -45,6 +45,8 @@ public class PullRefreshRecycleView extends WrapRecyclerView {
     // 正在刷新状态
     public static int REFRESH_STATUS_REFRESHING = 0x0044;
 
+    public boolean canRefresh = true;
+
     public PullRefreshRecycleView(Context context) {
         super(context);
     }
@@ -134,7 +136,9 @@ public class PullRefreshRecycleView extends WrapRecyclerView {
     public boolean onTouchEvent(MotionEvent e) {
         switch (e.getAction()) {
             case MotionEvent.ACTION_MOVE:
-                if (mRefreshCreator == null || mRefreshView == null) return super.onTouchEvent(e);
+
+
+                if (mRefreshCreator == null || mRefreshView == null || !canRefresh) return super.onTouchEvent(e);
                 // 如果是在最顶部才处理，否则不需要处理
                 if (canScrollUp()) {
                     // 如果没有到达最顶端，也就是说还可以向上滚动就什么都不处理
@@ -190,11 +194,20 @@ public class PullRefreshRecycleView extends WrapRecyclerView {
             // 添加头部的刷新View
             View refreshView = mRefreshCreator.getRefreshView(getContext(), this);
             if (refreshView != null) {
+
+
                 addHeaderView(refreshView);
                 if (mRefreshView != null) {
-                    ((WrapRecyclerAdapter) adapter).removeFooterView(mRefreshView);
+
+                    ((WrapRecyclerAdapter) adapter).removeHeaderView(mRefreshView);
                 }
                 this.mRefreshView = refreshView;
+
+                mRefreshViewHeight = mRefreshView.getMeasuredHeight();
+                if (mRefreshViewHeight > 0) {
+                    // 隐藏头部刷新的View  marginTop  多留出1px防止无法判断是不是滚动到头部问题
+                    setRefreshViewMarginTop(-mRefreshViewHeight + 1);
+                }
             }
         }
     }
@@ -308,5 +321,13 @@ public class PullRefreshRecycleView extends WrapRecyclerView {
             return headerCount;
         }
         return -1;
+    }
+
+    public View getRefreshView() {
+        return mRefreshView;
+    }
+
+    public void setCanRefresh(boolean can) {
+        canRefresh = can;
     }
 }

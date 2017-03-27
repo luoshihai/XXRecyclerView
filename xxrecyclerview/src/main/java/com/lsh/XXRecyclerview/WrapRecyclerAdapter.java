@@ -21,6 +21,10 @@ public class WrapRecyclerAdapter extends RecyclerView.Adapter {
 
 
     private static int BASE_ITEN_HEADER = 100000;
+    private int REFRESH_HEADER = 400000;
+    private int LOAD_FOOTER = 500000;
+    private View refreshView;
+    private View loadView;
     private static int BASE_ITEN_FOOTER = 200000;
 
     private RecyclerView.Adapter mAdapter;
@@ -65,6 +69,7 @@ public class WrapRecyclerAdapter extends RecyclerView.Adapter {
     @Override
     public int getItemViewType(int position) {
         if (isHeaderPosition(position)) {
+
             return mHeaderViews.keyAt(position);
         }
         if (isFooterPosition(position)) {

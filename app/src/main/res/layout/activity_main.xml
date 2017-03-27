@@ -17,7 +17,10 @@
        <!--app:loadMoreEnabled = "true"-->
 
    </com.lsh.XXRecyclerview.XXRecycleView>
-   <!--<include-->
-       <!--android:id="@+id/main_empty"-->
-       <!--layout="@layout/empty_view"/>-->
+   <Button
+       android:layout_width="wrap_content"
+       android:text="点我"
+       android:layout_centerInParent="true"
+       android:onClick="c"
+       android:layout_height="wrap_content"/>
 </RelativeLayout>

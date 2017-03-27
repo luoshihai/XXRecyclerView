@@ -4,7 +4,9 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<String> datas = new ArrayList<>();
     Handler mHandler = new Handler();
     int i = 0;
+    private View mHeader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,11 +119,15 @@ public class MainActivity extends AppCompatActivity {
             }
 
         };
-        rv.setLayoutManager(new StaggeredGridLayoutManager(4,StaggeredGridLayoutManager.VERTICAL));
-//        rv.setLayoutManager(new GridLayoutManager(this,4));
+//        rv.setLayoutManager(new StaggeredGridLayoutManager(4,StaggeredGridLayoutManager.VERTICAL));
+        rv.setLayoutManager(new GridLayoutManager(this,4));
         rv.setAdapter(adapter);
-        rv.setEmptyView();
 //        WrapRecyclerAdapter wrapRecyclerAdapter = new WrapRecyclerAdapter(adapter);
+        rv.setPullRefreshEnabled(true);
+        rv.setLoadMoreEnabled(true);
+        mHeader = LayoutInflater.from(this).inflate(R.layout.kehu_detail_header, null);
+        rv.addHeaderView(mHeader);
+
         TextView headerView1 = new TextView(this);
         headerView1.setText("这是头部1");
 //        TextView headerView2 = new TextView(this);
@@ -139,9 +146,6 @@ public class MainActivity extends AppCompatActivity {
 //        rv.addHeaderView(headerView1);
 //        rv.addFooterView(footerView1);
 //        rv.addLoadViewCreator(new DefaultLoadCreator());
-        rv.setPullRefreshEnabled(true);
-        rv.setLoadMoreEnabled(true);
-
         rv.setOnLoadMoreListener(new XXRecycleView.OnLoadMoreListener() {
             @Override
             public void onLoad() {
@@ -167,6 +171,12 @@ public class MainActivity extends AppCompatActivity {
         rv.setOnRefreshListener(new PullRefreshRecycleView.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                rv.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        rv.stopRefresh();
+                    }
+                }, 2000);
                 Toast.makeText(MainActivity.this, "正在刷新", Toast.LENGTH_SHORT).show();
             }
 
@@ -187,5 +197,15 @@ public class MainActivity extends AppCompatActivity {
 //        Toast.makeText(this, "footerCount:" + footerCount, Toast.LENGTH_SHORT).show();
 //        Toast.makeText(this, "headerCount:" + headerCount, Toast.LENGTH_SHORT).show();
 
+    }
+
+    int index = 0;
+    public void c(View view) {
+        if (index % 2 == 0) {
+            rv.setCanRefresh(true);
+        } else {
+           rv.setCanRefresh(false);
+        }
+        index++;
     }
 }

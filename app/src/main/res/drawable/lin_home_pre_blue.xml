@@ -1,0 +1,15 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+    <!-- 边框颜色值 -->
+    <item
+        android:left="-3dp"
+        android:right="-3dp"
+        android:top="-3dp">
+        <shape>
+            <solid android:color="#00FFFFFF" />
+
+            <stroke
+                android:width="2dp"
+                android:color="@color/blue3" />
+        </shape>
+    </item>
+</layer-list>
